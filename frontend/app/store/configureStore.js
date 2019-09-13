@@ -5,7 +5,19 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import createReducer from './reducers';
+import rootSaga from './sagas';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  stateReconciler: autoMergeLevel2,
+};
+
+const persistedReducer = persistReducer(persistConfig, createReducer());
 
 export default function configureStore(initialState = {}, history) {
   let composeEnhancers = compose;
@@ -37,12 +49,14 @@ export default function configureStore(initialState = {}, history) {
   const enhancers = [applyMiddleware(...middlewares)];
 
   const store = createStore(
-    createReducer(),
+    // createReducer(),
+    persistedReducer,
     initialState,
     composeEnhancers(...enhancers),
   );
 
   // Extensions
+  sagaMiddleware.run(rootSaga);
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry

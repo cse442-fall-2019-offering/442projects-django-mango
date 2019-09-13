@@ -1,4 +1,4 @@
-import { makeSelectLocation } from 'containers/App/selectors';
+import { makeSelectLocation } from 'my-selectors/globalSelectors';
 
 describe('makeSelectLocation', () => {
   it('should select the location', () => {
