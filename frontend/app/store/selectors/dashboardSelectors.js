@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { initialState } from '../reducers/dashboardReducer';
 
-const selectGroups = state => state.groups || initialState;
+const selectGroups = state => state.dashboard || initialState;
 
 const makeSelectGroups = () =>
   createSelector(

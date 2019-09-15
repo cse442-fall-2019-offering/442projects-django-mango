@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -55,35 +55,33 @@ class Dashboard extends Component {
     }
     const { classes } = this.props;
     return (
-      <Fragment>
-        <div className={classes.root}>
-          <Grid container spacing={2} justify="center">
-            <Grid item md={3} sm={12} xs={12}>
-              <div className={classes.button}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="button"
-                  onClick={this.handleCreateGroup}
-                >
-                  + Create a group
-                </Button>
-              </div>
-            </Grid>
-            <Grid item md={9} sm={12} xs={12}>
-              <div className={classes.groupList}>
-                {this.state.groups.map(group => (
-                  <Grid item lg={3} md={4} sm={12} xs={12} key={group[0]}>
-                    <div className={classes.group}>
-                      <Group group={group} />
-                    </div>
-                  </Grid>
-                ))}
-              </div>
-            </Grid>
+      <div className={classes.root}>
+        <Grid container spacing={2} justify="center">
+          <Grid item md={3} sm={12} xs={12}>
+            <div className={classes.button}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={this.handleCreateGroup}
+              >
+                + Create a group
+              </Button>
+            </div>
           </Grid>
-        </div>
-      </Fragment>
+          <Grid item md={9} sm={12} xs={12}>
+            <div className={classes.groupList}>
+              {this.state.groups.map(group => (
+                <Grid item lg={3} md={4} sm={12} xs={12} key={group[0]}>
+                  <div className={classes.group}>
+                    <Group group={group} />
+                  </div>
+                </Grid>
+              ))}
+            </div>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }

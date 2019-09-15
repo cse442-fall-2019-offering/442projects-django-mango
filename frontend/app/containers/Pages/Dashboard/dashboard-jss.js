@@ -10,6 +10,7 @@ const styles = theme => ({
   button: {
     width: 170,
     height: 40,
+    paddingTop: '50px',
   },
 
   groupList: {

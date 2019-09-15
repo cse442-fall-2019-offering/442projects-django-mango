@@ -19,7 +19,7 @@ export function* getGroupsSaga() {
         ['python'],
         ['jasonniu@buffalo.edu', 'chanshuy@buffalo.edu'],
       ],
-      ['5E3r5g', 'For Each', ['python, c++'], ['test@buffalo.edu']],
+      ['5E3r5g', 'For Each', ['python', 'c++'], ['test@buffalo.edu']],
       [
         '2E3r5g',
         'Web Master',
@@ -40,7 +40,7 @@ export function* getGroupsSaga() {
       [
         '4E3r5g',
         'Hello World',
-        ['html, css, javascript, c++'],
+        ['html', 'css', 'javascript', 'c++'],
         ['test7@buffalo.edu'],
       ],
     ],
