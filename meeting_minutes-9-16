@@ -1,0 +1,14 @@
+Notes from meeting on September 16th, 2019
+
+- insights and zenhub tab on github are where the instructors are looking to see contributions
+- every single commit should be linked to a story
+   - one story can be used for multiple commits
+   - even minor changes/bug fixes need to be linked to a user story
+- commit messages need to be condense but detailed enough to give a picture of what happens
+- user story titles should be a brief explaination of whats inside the story
+   - some stories may require dependencies (ie. UI based things) so we can express what overall concept they belong to
+- there should be user stories that reflect the dummy iu for sprint one explaining what we would want out of the ui
+   - this story as well as every other story should include an acceptance test in the comments which verifies
+     that the story is complete and should be completed during the same sprint as the story it pertains to
+- any code that is to be looked at/graded at each sprint must be push to master otherwise it won't be considered
+   - this might lead to getting points off of a story if it is due but not pushed to master
