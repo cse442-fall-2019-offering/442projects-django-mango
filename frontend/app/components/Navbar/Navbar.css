@@ -1,0 +1,68 @@
+
+
+.navbar {
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    width: 100%;
+    background: #EA6624;
+    height: 60px;
+    font-family: "Comic Sans Ms";
+    font-weight: bold;
+}
+
+.navbar_nav {
+    padding: 0px 0px 0px 20px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    
+}
+
+.navbar_title {
+    
+}
+
+.navbar_title a{
+    padding: 0px 10px 0px 0px;
+    color: white;
+    text-decoration: none;
+    font-size: 2rem;
+}
+
+.navbar_buttons a{
+    color: white;
+    text-decoration: none;
+    
+}
+
+.navbar_buttons a:hover, .navbar_buttons a:active {
+    color: #EB2121;
+}
+
+.navbar_buttons ul {
+    padding: 0px 0px 0px 0px;
+    list-style: none;
+    margin: 0px;
+    display: flex;
+    
+}
+
+.navbar_buttons li {
+    padding: 0px 0px 0px 40px;
+}
+
+.empty {
+    flex: 1;
+}
+
+.navbar_username a {
+    text-decoration: none;
+    padding: 0px 70px 0px 0px;
+    display: flex;
+    margin: 0px;
+    color: white;
+    list-style: none;
+    font-family: "Comic Sans MS";
+    font-weight: bold;
+}
