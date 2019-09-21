@@ -17,7 +17,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import history from 'utils/history';
-import Loading from 'my-components/Loading';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -25,6 +24,9 @@ import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
+
+// Import Loading Component
+import Loading from './components/Loading/index';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */

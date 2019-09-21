@@ -1,4 +1,10 @@
-// Dashboard
+// Group
 export const GET_GROUPS = 'GET_GROUPS';
 export const GET_GROUPS_SUCCESS = 'GET_GROUPS_SUCCESS';
 export const CREATE_GROUP = 'CREATE_GROUP';
+export const GET_GROUP = 'GET_GROUP';
+export const GET_GROUP_SUCCESS = 'GET_GROUP_SUCCESS';
+export const JOIN_GROUP = 'JOIN_GROUP';
+export const JOIN_GROUP_SUCCESS = 'JOIN_GROUP_SUCCESS';
+export const LEAVE_GROUP = 'LEAVE_GROUP';
+export const LEAVE_GROUP_SUCCESS = 'LEAVE_GROUP_SUCCESS';

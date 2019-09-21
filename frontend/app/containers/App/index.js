@@ -14,13 +14,14 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
-import { Dashboard } from '../pageListAsync';
+import { Dashboard, Group } from '../pageListAsync';
 
 export default function App() {
   return (
     <div>
       <Switch>
         <Route exact path="/" component={withRouter(Dashboard)} />
+        <Route exact path="/groups/:groupId" component={withRouter(Group)} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

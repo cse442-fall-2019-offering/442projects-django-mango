@@ -8,12 +8,16 @@ const styles = theme => ({
   },
 
   button: {
+    position: 'relative',
+    top: '100px',
     width: 170,
     height: 40,
     paddingTop: '50px',
   },
 
   groupList: {
+    position: 'relative',
+    top: '100px',
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -26,7 +30,7 @@ const styles = theme => ({
     cursor: 'pointer',
     boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
     borderRadius: 9,
-    overflow: 'hidden',
+    overflow: 'auto',
     transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
     '&:hover': {
       transform: 'scale(1.1,1.1)',
