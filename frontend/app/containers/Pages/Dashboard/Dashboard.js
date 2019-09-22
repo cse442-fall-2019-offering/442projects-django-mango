@@ -7,13 +7,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getGroups, createGroup } from 'my-actions/dashboardActions';
+import { getGroups, createGroup } from 'my-actions/groupActions';
 import Group from 'my-components/Dashboard/Group';
 import Loading from 'my-components/Loading';
-import {
-  makeSelectGroups,
-  makeSelectLoading,
-} from 'my-selectors/dashboardSelectors';
+import Navbar from 'my-components/Navbar/Navbar';
+import { makeSelectGroups } from 'my-selectors/groupSelectors';
 import styles from './dashboard-jss';
 
 class Dashboard extends Component {
@@ -23,7 +21,7 @@ class Dashboard extends Component {
   };
 
   static getDerivedStateFromProps(props) {
-    if (props.loading) {
+    if (props.groups.length < 1) {
       return {
         loading: true,
       };
@@ -40,7 +38,7 @@ class Dashboard extends Component {
   }
 
   handleGroupClick = id => {
-    this.props.history.push(`/groups/${id}`);
+    window.location.href = `/groups/${id}`;
   };
 
   handleCreateGroup = () => {
@@ -56,6 +54,7 @@ class Dashboard extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
+        <Navbar />
         <Grid container spacing={2} justify="center">
           <Grid item md={3} sm={12} xs={12}>
             <div className={classes.button}>
@@ -72,8 +71,12 @@ class Dashboard extends Component {
           <Grid item md={9} sm={12} xs={12}>
             <div className={classes.groupList}>
               {this.state.groups.map(group => (
-                <Grid item lg={3} md={4} sm={12} xs={12} key={group[0]}>
-                  <div className={classes.group}>
+                <Grid item lg={4} md={5} sm={4} xs={5} key={group[0]}>
+                  <div
+                    className={classes.group}
+                    onClick={() => this.handleGroupClick(group[0])}
+                    role="presentation"
+                  >
                     <Group group={group} />
                   </div>
                 </Grid>
@@ -88,14 +91,12 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   onGetGroups: PropTypes.func.isRequired,
   onCreateGroup: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   groups: makeSelectGroups(),
-  loading: makeSelectLoading(),
 });
 
 const mapDispatchToProps = dispatch => ({

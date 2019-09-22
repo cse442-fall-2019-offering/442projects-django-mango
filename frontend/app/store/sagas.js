@@ -1,10 +1,10 @@
 import { all, call, fork } from 'redux-saga/effects';
 
 // import all the sagas here and add it to the below sagas array
-import dashboardSaga from './sagas/dashboardSaga';
+import groupSaga from './sagas/groupSaga';
 
 function* rootSaga() {
-  const sagas = [dashboardSaga];
+  const sagas = [groupSaga];
 
   yield all(
     sagas.map(saga =>
