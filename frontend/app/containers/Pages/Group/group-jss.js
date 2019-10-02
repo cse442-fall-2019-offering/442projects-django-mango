@@ -5,24 +5,43 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       maxWidth: '100%',
     },
+    '& .medium-editor-placeholder:after': {
+      paddingTop: 68,
+    },
   },
 
   button: {
     position: 'relative',
-    top: '100px',
-    left: '175px',
+    top: '170px',
+    left: '50px',
     width: 170,
     height: 40,
     paddingTop: '50px',
   },
 
-  title: {
+  name: {
     position: 'relative',
-    top: '100px',
-    left: '300px',
+    top: 100,
+    left: 300,
     width: 500,
     fontSize: '50px',
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  description: {
+    position: 'relative',
+    top: 150,
+    left: 300,
+    width: 510,
+    height: 400,
+    zIndex: 1,
+    backgroundColor: '#fff',
+    color: 'black',
+    borderRadius: 18,
+    padding: 50,
+    overflow: 'auto',
+    boxShadow: '0px 4px 10px rgba(51, 50, 50, 0.15)',
   },
 
   languageTitle: {
@@ -31,18 +50,19 @@ const styles = theme => ({
 
   languages: {
     position: 'relative',
-    top: '200px',
-    left: '50px',
+    bottom: 200,
+    left: 50,
     width: 400,
+    height: 500,
     fontSize: '20px',
   },
 
   members: {
     position: 'relative',
-    top: '50px',
-    left: '300px',
-    right: '100px',
+    bottom: 720,
+    left: 940,
     width: 400,
+    height: 500,
     fontSize: '20px',
   },
 });

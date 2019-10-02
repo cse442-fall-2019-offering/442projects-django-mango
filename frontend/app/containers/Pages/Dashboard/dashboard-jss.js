@@ -10,19 +10,21 @@ const styles = theme => ({
   button: {
     position: 'relative',
     top: '100px',
+    left: '20px',
     width: 170,
     height: 40,
     paddingTop: '50px',
+    paddingBottom: '20px',
   },
 
   groupList: {
     position: 'relative',
     top: '100px',
+    left: '20px',
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-
   group: {
     width: 168,
     height: 203,

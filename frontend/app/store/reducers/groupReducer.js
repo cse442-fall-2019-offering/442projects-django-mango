@@ -12,7 +12,11 @@ export const initialState = {
     groups: [],
   },
   group: {
-    group: [],
+    name: '',
+    description: '',
+    languages: [],
+    members: [],
+    error: false,
   },
 };
 

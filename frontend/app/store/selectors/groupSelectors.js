@@ -12,7 +12,7 @@ const makeSelectGroups = () =>
 const makeSelectGroup = () =>
   createSelector(
     selectGroups,
-    groupState => groupState.group.group,
+    groupState => groupState.group,
   );
 
 export { selectGroups, makeSelectGroups, makeSelectGroup };
