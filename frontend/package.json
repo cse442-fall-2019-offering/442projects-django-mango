@@ -82,6 +82,7 @@
     "ip": "1.1.5",
     "jss": "^9.8.7",
     "lodash": "4.17.11",
+    "medium-editor": "^5.23.3",
     "minimist": "1.2.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",

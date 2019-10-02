@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Prompt } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 
 import Button from '@material-ui/core/Button';
@@ -8,16 +9,38 @@ import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getGroup, joinGroup, leaveGroup } from 'my-actions/groupActions';
+import {
+  getGroup,
+  updateGroup,
+  joinGroup,
+  leaveGroup,
+} from 'my-actions/groupActions';
 import Loading from 'my-components/Loading';
+import ReactMediumEditor from 'my-components/Editor/ReactMediumEditor';
 import Navbar from 'my-components/Navbar/Navbar';
 import { makeSelectGroup } from 'my-selectors/groupSelectors';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import styles from './group-jss';
+
+function containsObject(obj, list) {
+  for (let i = 0; i < list.length; i += 1) {
+    if (list[i] === obj) {
+      return true;
+    }
+  }
+  return false;
+}
 
 class Group extends Component {
   state = {
-    group: [],
+    name: '',
+    description: '',
+    languages: [],
+    members: [],
+    changed: [],
+    edit: false,
     loading: true,
+    error: false,
   };
 
   static getDerivedStateFromProps(props) {
@@ -26,8 +49,17 @@ class Group extends Component {
         loading: true,
       };
     }
+    if (props.group.error) {
+      return {
+        loading: false,
+        error: true,
+      };
+    }
     return {
-      group: props.group,
+      name: props.group.name,
+      description: props.group.description,
+      languages: props.group.languages,
+      members: props.group.members,
       loading: false,
     };
   }
@@ -50,16 +82,73 @@ class Group extends Component {
     onLeaveGroup(payload);
   };
 
+  handleUpdateGroup = () => {
+    const { onUpdateGroup } = this.props;
+    const payload = {
+      groupId: this.props.match.params.groupId,
+      name: this.state.name,
+      description: this.state.description,
+      languages: this.state.languages,
+    };
+    onUpdateGroup(payload);
+    this.setState({
+      changed: [],
+    });
+  };
+
+  handleNameChange = event => {
+    this.setState({
+      name: event.target.value,
+    });
+    if (!containsObject('name', this.state.changed))
+      this.setState(previousState => ({
+        changed: [...previousState.changed, 'name'],
+      }));
+  };
+
+  handleDescriptionChange = description => {
+    this.setState({
+      description,
+    });
+    if (!containsObject('description', this.state.changed))
+      this.setState(previousState => ({
+        changed: [...previousState.changed, 'description'],
+      }));
+  };
+
+  handleLanguagesChange = languages => {
+    this.setState({
+      languages,
+    });
+    if (!containsObject('languages', this.state.changed))
+      this.setState(previousState => ({
+        changed: [...previousState.changed, 'languages'],
+      }));
+  };
+
+  editGroup = () => {
+    this.setState(previousState => ({
+      edit: !previousState.edit,
+    }));
+  };
+
   render() {
     if (this.state.loading) {
       return <Loading />;
     }
+    if (this.state.error) {
+      return <NotFoundPage />;
+    }
     const { classes } = this.props;
     return (
       <div className={classes.root}>
+        <Prompt
+          when={this.state.changed.length > 0}
+          message="You have unsaved changes, are you sure you want to leave?"
+        />
         <Navbar />
         <Grid container spacing={2} justify="center">
-          <Grid item md={3} sm={12} xs={12}>
+          <Grid item md={3} sm={10} xs={12}>
             <div className={classes.button}>
               <Button
                 variant="contained"
@@ -70,30 +159,28 @@ class Group extends Component {
                 Join
               </Button>
             </div>
-          </Grid>
-          <Grid item md={9} sm={12} xs={12}>
-            <div className={classes.group}>
-              <div className={classes.title}>{this.state.group[1]}</div>
-              <div className={classes.languages}>
-                <div className={classes.languageTitle}>
-                  <p>Languages</p>
-                </div>
-                {this.state.group[2].map(language => (
-                  <div className={classes.language}>
-                    <p>{`${language}\n`}</p>
-                  </div>
-                ))}
+            <div className={classes.name}>{this.state.name}</div>
+            <ReactMediumEditor
+              className={classes.description}
+              text={this.state.description}
+              onChange={this.handleDescriptionChange}
+              placeholder="Group Description"
+            />
+            <div className={classes.languages}>
+              <div className={classes.languageTitle}>
+                <p>Languages</p>
               </div>
-              <div className={classes.members}>
-                {this.state.group[3].map(member => (
-                  <div className={classes.member}>
-                    <p>
-                      <AccountCircle />
-                      {` ${member}\n`}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              {this.state.languages.map(language => (
+                <p>{`${language}\n`}</p>
+              ))}
+            </div>
+            <div className={classes.members}>
+              {this.state.members.map(member => (
+                <p>
+                  <AccountCircle />
+                  {` ${member}\n`}
+                </p>
+              ))}
             </div>
           </Grid>
         </Grid>
@@ -105,8 +192,9 @@ class Group extends Component {
 Group.propTypes = {
   classes: PropTypes.object.isRequired,
   onGetGroup: PropTypes.func.isRequired,
-  onJoinGroup: PropTypes.func.isRequired,
-  onLeaveGroup: PropTypes.func.isRequired,
+  onUpdateGroup: PropTypes.func,
+  onJoinGroup: PropTypes.func,
+  onLeaveGroup: PropTypes.func,
   match: PropTypes.shape({
     params: PropTypes.shape({
       groupId: PropTypes.string.isRequired,
@@ -120,6 +208,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   onGetGroup: payload => dispatch(getGroup(payload)),
+  onUpdateGroup: payload => dispatch(updateGroup(payload)),
   onJoinGroup: payload => dispatch(joinGroup(payload)),
   onLeaveGroup: payload => dispatch(leaveGroup(payload)),
 });
