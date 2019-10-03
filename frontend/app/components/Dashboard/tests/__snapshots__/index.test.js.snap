@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Group Dashboard Component 1`] = `
+<div
+  className="Group-group-1"
+>
+  <div
+    className="Group-name-2"
+  >
+    Django Mango
+  </div>
+  <div
+    className="Group-languages-3"
+  >
+    <div
+      className="Group-language-4"
+    >
+      <p>
+        python
+
+      </p>
+    </div>
+    <div
+      className="Group-language-4"
+    >
+      <p>
+        javascript
+
+      </p>
+    </div>
+  </div>
+</div>
+`;
