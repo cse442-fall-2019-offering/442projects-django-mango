@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Prompt } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import Button from '@material-ui/core/Button';
@@ -141,50 +142,52 @@ class Group extends Component {
     }
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
-        <Prompt
-          when={this.state.changed.length > 0}
-          message="You have unsaved changes, are you sure you want to leave?"
-        />
-        <Navbar />
-        <Grid container spacing={2} justify="center">
-          <Grid item md={3} sm={10} xs={12}>
-            <div className={classes.button}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="button"
-                onClick={this.handleJoinGroup}
-              >
-                Join
-              </Button>
-            </div>
-            <div className={classes.name}>{this.state.name}</div>
-            <ReactMediumEditor
-              className={classes.description}
-              text={this.state.description}
-              onChange={this.handleDescriptionChange}
-              placeholder="Group Description"
-            />
-            <div className={classes.languages}>
-              <div className={classes.languageTitle}>
-                <p>Languages</p>
+      <BrowserRouter>
+        <div className={classes.root}>
+          <Prompt
+            when={this.state.changed.length > 0}
+            message="You have unsaved changes, are you sure you want to leave?"
+          />
+          <Navbar />
+          <Grid container spacing={2} justify="center">
+            <Grid item md={3} sm={10} xs={12}>
+              <div className={classes.button}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  onClick={this.handleJoinGroup}
+                >
+                  Join
+                </Button>
               </div>
-              {this.state.languages.map(language => (
-                <p>{`${language}\n`}</p>
-              ))}
-            </div>
-            <div className={classes.members}>
-              {this.state.members.map(member => (
-                <p>
-                  <AccountCircle />
-                  {` ${member}\n`}
-                </p>
-              ))}
-            </div>
+              <div className={classes.name}>{this.state.name}</div>
+              <ReactMediumEditor
+                className={classes.description}
+                text={this.state.description}
+                onChange={this.handleDescriptionChange}
+                placeholder="Group Description"
+              />
+              <div className={classes.languages}>
+                <div className={classes.languageTitle}>
+                  <p>Languages</p>
+                </div>
+                {this.state.languages.map(language => (
+                  <p key={language}>{`${language}\n`}</p>
+                ))}
+              </div>
+              <div className={classes.members}>
+                {this.state.members.map(member => (
+                  <p key={member}>
+                    <AccountCircle />
+                    {` ${member}\n`}
+                  </p>
+                ))}
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
+        </div>
+      </BrowserRouter>
     );
   }
 }
