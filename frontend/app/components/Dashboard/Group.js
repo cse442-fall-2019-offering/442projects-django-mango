@@ -15,7 +15,7 @@ const styles = () => ({
   },
   languages: {
     textAlign: 'center',
-    color: '#990099',
+    color: '#ffff00',
     marginTop: '50px',
   },
   language: {

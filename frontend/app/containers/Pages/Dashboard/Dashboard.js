@@ -72,13 +72,23 @@ class Dashboard extends Component {
             <div className={classes.groupList}>
               {this.state.groups.map(group => (
                 <Grid item lg={4} md={5} sm={4} xs={5} key={group[0]}>
-                  <div
-                    className={classes.group}
-                    onClick={() => this.handleGroupClick(group[0])}
-                    role="presentation"
-                  >
-                    <Group group={group} />
-                  </div>
+                  {group[3].length < 5 ? (
+                    <div
+                      className={classes.openGroup}
+                      onClick={() => this.handleGroupClick(group[0])}
+                      role="presentation"
+                    >
+                      <Group className={classes.open} group={group} />
+                    </div>
+                  ) : (
+                    <div
+                      className={classes.closedGroup}
+                      onClick={() => this.handleGroupClick(group[0])}
+                      role="presentation"
+                    >
+                      <Group className={classes.closed} group={group} />
+                    </div>
+                  )}
                 </Grid>
               ))}
             </div>
