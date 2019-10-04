@@ -47,7 +47,13 @@ export function* getGroupsSaga() {
         '3E3r5g',
         'Java Lava',
         ['java'],
-        ['test4@buffalo.edu', 'test5@buffalo.edu', 'test6@buffalo.edu'],
+        [
+          'test4@buffalo.edu',
+          'test5@buffalo.edu',
+          'test6@buffalo.edu',
+          'test7@buffalo.edu',
+          'test8@buffalo.edu',
+        ],
       ],
       [
         '4E3r5g',
@@ -100,7 +106,13 @@ export function* getGroupSaga(action) {
       name: 'Java Lava',
       description: '<p>Create a game with Java</p>',
       languages: ['java'],
-      members: ['test4@buffalo.edu', 'test5@buffalo.edu', 'test6@buffalo.edu'],
+      members: [
+        'test4@buffalo.edu',
+        'test5@buffalo.edu',
+        'test6@buffalo.edu',
+        'test7@buffalo.edu',
+        'test8@buffalo.edu',
+      ],
     };
   else if (groupId === '4E3r5g')
     response = {
