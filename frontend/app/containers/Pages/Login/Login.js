@@ -26,7 +26,7 @@ class Login extends Component {
         this.setState({isSignedIn:!!user})
         console.log("user",user)
         if (user) {
-          window.location = '/dashboard'
+          window.location.href = '/dashboard';
         }
       })
     }

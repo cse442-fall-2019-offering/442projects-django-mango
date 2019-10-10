@@ -14,14 +14,37 @@ import Navbar from 'my-components/Navbar/Navbar';
 import { makeSelectGroups } from 'my-selectors/groupSelectors';
 import styles from './dashboard-jss';
 
+var currentUser;
+
 import firebase from "firebase"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+
+firebase.initializeApp({
+  apiKey:" AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU",
+  authDomain:"django-mango.firebaseapp.com"
+})
+
+
 
 class Dashboard extends Component {
   state = {
     groups: [],
-    loading: true,
+    loading: false,
+    isAuthenticating: true,
   };
+
+  authUser() {
+    return new Promise(function (resolve, reject) {
+       firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            resolve(user);
+            currentUser = user;
+          } else {
+            reject('User not logged in');
+            window.location.href = '/';
+          }             
+       });
+    });
+  }
 
   static getDerivedStateFromProps(props) {
     if (props.groups.length < 1) {
@@ -36,6 +59,13 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    this.authUser().then((user) => {
+       this.setState({ isAuthenticating: false });
+    }, (error) => {
+       this.setState({ isAuthenticating: false });
+       alert(e);
+    });
+    
     const { onGetGroups } = this.props;
     onGetGroups();
   }
@@ -50,23 +80,14 @@ class Dashboard extends Component {
     onCreateGroup(payload);
   };
 
-  getCurrentUser(auth) {
-    return new Promise((resolve, reject) => {
-       const unsubscribe = auth.onAuthStateChanged(user => {
-          unsubscribe();
-          resolve(user);
-       }, reject);
-    });
-  }
-
   render() {
-    if (this.state.loading) {
+    if (this.state.loading || this.state.isAuthenticating) {
       return <Loading />;
     }
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Navbar />
+        <Navbar email={currentUser.email} />
         <Grid container spacing={2} justify="center">
           <Grid item md={3} sm={12} xs={12}>
             <div className={classes.button}>
