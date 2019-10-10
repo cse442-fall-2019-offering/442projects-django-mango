@@ -14,6 +14,9 @@ import Navbar from 'my-components/Navbar/Navbar';
 import { makeSelectGroups } from 'my-selectors/groupSelectors';
 import styles from './dashboard-jss';
 
+import firebase from "firebase"
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+
 class Dashboard extends Component {
   state = {
     groups: [],
@@ -46,6 +49,15 @@ class Dashboard extends Component {
     const payload = { groupId: 'not_yet_implemented' };
     onCreateGroup(payload);
   };
+
+  getCurrentUser(auth) {
+    return new Promise((resolve, reject) => {
+       const unsubscribe = auth.onAuthStateChanged(user => {
+          unsubscribe();
+          resolve(user);
+       }, reject);
+    });
+  }
 
   render() {
     if (this.state.loading) {

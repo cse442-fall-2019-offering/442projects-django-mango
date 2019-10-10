@@ -20,9 +20,9 @@ export default function App() {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={withRouter(Dashboard)} />
+        <Route exact path="/dashboard" component={withRouter(Dashboard)} />
         <Route exact path="/groups/:groupId" component={withRouter(Group)} />
-        <Route exact path="/login" component={withRouter(Login)} />
+        <Route exact path="/" component={withRouter(Login)} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

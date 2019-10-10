@@ -16,7 +16,7 @@ const Navbar = props => (
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/">Dashboard</a>
+            <a href="/dashboard">Dashboard</a>
           </li>
           <li>
             <a href="/">Groups</a>
