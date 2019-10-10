@@ -4,7 +4,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import firebase from "firebase"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+
+
+
 // import styles from './ProfileDropButton-jss';
 
 export default function ProfileDropButton() {
@@ -19,7 +21,8 @@ export default function ProfileDropButton() {
   }
 
   function signOut() {
-    window.location.pathname = '/';
+    firebase.auth().signOut();
+    //window.location.pathname = '/';
   }
 
   return (
