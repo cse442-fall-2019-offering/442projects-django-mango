@@ -12,18 +12,15 @@ import Group from 'my-components/Dashboard/Group';
 import Loading from 'my-components/Loading';
 import Navbar from 'my-components/Navbar/Navbar';
 import { makeSelectGroups } from 'my-selectors/groupSelectors';
+import firebase from 'firebase';
 import styles from './dashboard-jss';
 
-var currentUser;
-
-import firebase from "firebase"
+let currentUser;
 
 firebase.initializeApp({
-  apiKey:" AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU",
-  authDomain:"django-mango.firebaseapp.com"
-})
-
-
+  apiKey: ' AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
+  authDomain: 'django-mango.firebaseapp.com',
+});
 
 class Dashboard extends Component {
   state = {
@@ -33,16 +30,16 @@ class Dashboard extends Component {
   };
 
   authUser() {
-    return new Promise(function (resolve, reject) {
-       firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            resolve(user);
-            currentUser = user;
-          } else {
-            reject('User not logged in');
-            window.location.href = '/';
-          }             
-       });
+    return new Promise(function auth(resolve, reject) {
+      firebase.auth().onAuthStateChanged(function authStateChanged(user) {
+        if (user) {
+          resolve(user);
+          currentUser = user;
+        } else {
+          reject(new Error('User not logged in'));
+          window.location.href = '/';
+        }
+      });
     });
   }
 
@@ -59,13 +56,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.authUser().then((user) => {
-       this.setState({ isAuthenticating: false });
-    }, (error) => {
-       this.setState({ isAuthenticating: false });
-       alert(e);
-    });
-    
+    this.authUser().then(
+      () => {
+        this.setState({ isAuthenticating: false });
+      },
+      () => {
+        this.setState({ isAuthenticating: false });
+        // alert(e);
+      },
+    );
+
     const { onGetGroups } = this.props;
     onGetGroups();
   }
