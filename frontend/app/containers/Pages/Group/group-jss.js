@@ -5,9 +5,7 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       maxWidth: '100%',
     },
-    '& .medium-editor-placeholder:after': {
-      paddingTop: 68,
-    },
+    maxHeight: '100%',
   },
 
   button: {

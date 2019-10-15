@@ -188,7 +188,7 @@ class Group extends Component {
             message="You have unsaved changes, are you sure you want to leave?"
           />
           <Navbar email={currentUser.email} />
-          <Grid container spacing={2} justify="center">
+          <Grid container spacing={2} justify="left">
             <Grid item md={3} sm={10} xs={12}>
               <div className={classes.button}>
                 <Button
