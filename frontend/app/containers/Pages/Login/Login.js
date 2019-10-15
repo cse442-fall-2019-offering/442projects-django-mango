@@ -5,11 +5,6 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import Avatar from './avatar.png';
 import './style.css';
 
-firebase.initializeApp({
-  apiKey: ' AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
-  authDomain: 'django-mango.firebaseapp.com',
-});
-
 class Login extends Component {
   state = {
     loading: false,
@@ -25,6 +20,11 @@ class Login extends Component {
   };
 
   componentDidMount = () => {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
+      authDomain: 'django-mango.firebaseapp.com',
+    });
+
     this.authUser().then(
       () => {
         this.setState({ isAuthenticating: false });

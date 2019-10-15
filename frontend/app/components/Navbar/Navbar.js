@@ -8,7 +8,7 @@ const Navbar = props => (
   <header className={props.classes.navbar}>
     <nav className={props.classes.navbar_nav}>
       <div className={props.classes.navbar_title}>
-        <a href="/">Django Mango</a>
+        <a href="/dashboard">Django Mango</a>
       </div>
       <div className={props.classes.navbar_buttons}>
         <ul>
@@ -28,7 +28,7 @@ const Navbar = props => (
         <ProfileDropButton />
       </div>
       <div className={props.classes.navbar_email}>
-        <a href="/">{props.email}</a>
+        <a href="/dashboard">{props.email}</a>
       </div>
     </nav>
   </header>

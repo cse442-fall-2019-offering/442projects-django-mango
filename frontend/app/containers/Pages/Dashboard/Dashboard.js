@@ -17,31 +17,12 @@ import styles from './dashboard-jss';
 
 let currentUser;
 
-firebase.initializeApp({
-  apiKey: ' AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
-  authDomain: 'django-mango.firebaseapp.com',
-});
-
 class Dashboard extends Component {
   state = {
     groups: [],
     loading: false,
     isAuthenticating: true,
   };
-
-  authUser() {
-    return new Promise(function auth(resolve, reject) {
-      firebase.auth().onAuthStateChanged(function authStateChanged(user) {
-        if (user) {
-          resolve(user);
-          currentUser = user;
-        } else {
-          reject(new Error('User not logged in'));
-          window.location.href = '/';
-        }
-      });
-    });
-  }
 
   static getDerivedStateFromProps(props) {
     if (props.groups.length < 1) {
@@ -56,6 +37,11 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
+      authDomain: 'django-mango.firebaseapp.com',
+    });
+
     this.authUser().then(
       () => {
         this.setState({ isAuthenticating: false });
@@ -68,6 +54,26 @@ class Dashboard extends Component {
 
     const { onGetGroups } = this.props;
     onGetGroups();
+  }
+
+  authUser() {
+    return new Promise(function auth(resolve, reject) {
+      firebase.auth().onAuthStateChanged(function authStateChanged(user) {
+        if (user) {
+          resolve(user);
+          if (user.email.includes('@buffalo.edu')) {
+            currentUser = user;
+          } else {
+            alert('You must sign-in with an @buffalo.edu email address.');
+            firebase.auth().signOut();
+            window.location.href = '/';
+          }
+        } else {
+          reject(new Error('User not logged in'));
+          window.location.href = '/';
+        }
+      });
+    });
   }
 
   handleGroupClick = id => {

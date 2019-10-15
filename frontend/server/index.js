@@ -1,5 +1,4 @@
 /* eslint consistent-return:0 import/order:0 */
-
 const express = require('express');
 const logger = require('./logger');
 
@@ -13,6 +12,11 @@ const ngrok =
     : false;
 const { resolve } = require('path');
 const app = express();
+
+require('dotenv').config();
+global.myVar = process.env.REACT_APP_APIKEY;
+console.log(`Your api key is: ${process.env.REACT_APP_APIKEY}`);
+console.log(`Your auth domain is: ${process.env.REACT_APP_AUTHDOMAIN}`);
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
