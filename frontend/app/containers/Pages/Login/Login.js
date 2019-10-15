@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import Loading from 'my-components/Loading';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import Avatar from './avatar.png';
+import './style.css';
 
 firebase.initializeApp({
   apiKey: ' AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
   authDomain: 'django-mango.firebaseapp.com',
 });
+
 class Login extends Component {
   state = {
-    // isSignedIn: false,
     loading: false,
     isAuthenticating: true,
   };
@@ -33,8 +35,9 @@ class Login extends Component {
       },
     );
 
-    firebase.auth().onAuthStateChanged(user => {
-      // this.setState({ isSignedIn: !!user });
+    firebase.auth().onAuthStateChanged(function vars(result) {
+      // const { token } = result.token; // Obtains the token
+      const { user } = result.user;
       if (user) {
         window.location.href = '/dashboard';
       }
@@ -47,7 +50,6 @@ class Login extends Component {
         if (user) {
           resolve(user);
           window.location.href = '/dashboard';
-          // this.setState({ isSignedIn: !!user });
         } else {
           reject(new Error('User not logged in'));
         }
@@ -68,16 +70,18 @@ class Login extends Component {
     //  <img alt="profile picture" src={firebase.auth().currentUser.photoURL}/>
     // </span>
     return (
-      <div className="Login">
-        (
-        <span>
-          <h1>Welcome to Django Mango</h1>
-          <StyledFirebaseAuth
-            uiConfig={this.uiConfig}
-            firebaseAuth={firebase.auth()}
-          />
-        </span>
-      </div>
+      <span>
+        <div className="background">
+          <div className="loginbox">
+            <img src={Avatar} className="avatar" alt="" />
+            <h1>Welcome to Django Mango</h1>
+            <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
+          </div>
+        </div>
+      </span>
     );
   }
 }
