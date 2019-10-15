@@ -34,17 +34,6 @@ class Login extends Component {
         // alert(e);
       },
     );
-<<<<<<< HEAD
-=======
-
-    firebase.auth().onAuthStateChanged(function vars(result) {
-      // const { token } = result.token; // Obtains the token
-      const { user } = result.user;
-      if (user) {
-        window.location.href = '/dashboard';
-      }
-    });
->>>>>>> d089aa6c3274407c9a258d36f2baa51e0aea3f10
   };
 
   authUser() {
@@ -52,7 +41,6 @@ class Login extends Component {
       firebase.auth().onAuthStateChanged(function authStateChanged(user) {
         if (user) {
           resolve(user);
-<<<<<<< HEAD
           if (user.email.includes('@buffalo.edu')) {
             window.location.href = '/dashboard';
           } else {
@@ -60,9 +48,6 @@ class Login extends Component {
             firebase.auth().signOut();
             window.location.href = '/';
           }
-=======
-          window.location.href = '/dashboard';
->>>>>>> d089aa6c3274407c9a258d36f2baa51e0aea3f10
         } else {
           reject(new Error('User not logged in'));
         }
@@ -74,17 +59,6 @@ class Login extends Component {
     if (this.state.loading || this.state.isAuthenticating) {
       return <Loading />;
     }
-<<<<<<< HEAD
-=======
-    // window.location.pathname = '/dashboard'
-    //  <span>
-    //  <div>Signed In!</div>
-    //  <button onClick={()=>firebase.auth().signOut()}>Sign Out</button>
-    //  <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
-    //  <h1>Email: {firebase.auth().currentUser.email}</h1>
-    //  <img alt="profile picture" src={firebase.auth().currentUser.photoURL}/>
-    // </span>
->>>>>>> d089aa6c3274407c9a258d36f2baa51e0aea3f10
     return (
       <span>
         <div className="background">
