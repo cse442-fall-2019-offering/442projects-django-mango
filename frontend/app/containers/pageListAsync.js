@@ -11,3 +11,8 @@ export const Dashboard = loadable(() => import('./Pages/Dashboard/Dashboard'), {
 export const Group = loadable(() => import('./Pages/Group/Group'), {
   fallback: <Loading />,
 });
+
+// login
+export const Login = loadable(() => import('./Pages/Login/Login'), {
+  fallback: <Loading />,
+});

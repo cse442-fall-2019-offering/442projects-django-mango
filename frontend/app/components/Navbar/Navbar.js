@@ -13,10 +13,10 @@ const Navbar = props => (
       <div className={props.classes.navbar_buttons}>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <a href="/dashboard">Home</a>
           </li>
           <li>
-            <a href="/">Dashboard</a>
+            <a href="/dashboard">Dashboard</a>
           </li>
           <li>
             <a href="/">Groups</a>
@@ -28,7 +28,7 @@ const Navbar = props => (
         <ProfileDropButton />
       </div>
       <div className={props.classes.navbar_email}>
-        <a href="/">Email</a>
+        <a href="/">{props.email}</a>
       </div>
     </nav>
   </header>

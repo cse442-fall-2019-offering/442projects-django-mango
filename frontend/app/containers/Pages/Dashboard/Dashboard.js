@@ -12,13 +12,36 @@ import Group from 'my-components/Dashboard/Group';
 import Loading from 'my-components/Loading';
 import Navbar from 'my-components/Navbar/Navbar';
 import { makeSelectGroups } from 'my-selectors/groupSelectors';
+import firebase from 'firebase';
 import styles from './dashboard-jss';
+
+let currentUser;
+
+firebase.initializeApp({
+  apiKey: ' AIzaSyDyQlqoOHI2Af0dzNswbZ4T-B9qicu4ByU',
+  authDomain: 'django-mango.firebaseapp.com',
+});
 
 class Dashboard extends Component {
   state = {
     groups: [],
-    loading: true,
+    loading: false,
+    isAuthenticating: true,
   };
+
+  authUser() {
+    return new Promise(function auth(resolve, reject) {
+      firebase.auth().onAuthStateChanged(function authStateChanged(user) {
+        if (user) {
+          resolve(user);
+          currentUser = user;
+        } else {
+          reject(new Error('User not logged in'));
+          window.location.href = '/';
+        }
+      });
+    });
+  }
 
   static getDerivedStateFromProps(props) {
     if (props.groups.length < 1) {
@@ -33,6 +56,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    this.authUser().then(
+      () => {
+        this.setState({ isAuthenticating: false });
+      },
+      () => {
+        this.setState({ isAuthenticating: false });
+        // alert(e);
+      },
+    );
+
     const { onGetGroups } = this.props;
     onGetGroups();
   }
@@ -48,13 +81,13 @@ class Dashboard extends Component {
   };
 
   render() {
-    if (this.state.loading) {
+    if (this.state.loading || this.state.isAuthenticating) {
       return <Loading />;
     }
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Navbar />
+        <Navbar email={currentUser.email} />
         <Grid container spacing={2} justify="center">
           <Grid item md={3} sm={12} xs={12}>
             <div className={classes.button}>
@@ -72,13 +105,23 @@ class Dashboard extends Component {
             <div className={classes.groupList}>
               {this.state.groups.map(group => (
                 <Grid item lg={4} md={5} sm={4} xs={5} key={group[0]}>
-                  <div
-                    className={classes.group}
-                    onClick={() => this.handleGroupClick(group[0])}
-                    role="presentation"
-                  >
-                    <Group group={group} />
-                  </div>
+                  {group[3].length < 5 ? (
+                    <div
+                      className={classes.openGroup}
+                      onClick={() => this.handleGroupClick(group[0])}
+                      role="presentation"
+                    >
+                      <Group className={classes.open} group={group} />
+                    </div>
+                  ) : (
+                    <div
+                      className={classes.closedGroup}
+                      onClick={() => this.handleGroupClick(group[0])}
+                      role="presentation"
+                    >
+                      <Group className={classes.closed} group={group} />
+                    </div>
+                  )}
                 </Grid>
               ))}
             </div>

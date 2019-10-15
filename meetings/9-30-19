@@ -1,0 +1,10 @@
+Notes from meeting on September 30th, 2019
+
+- each user story has an acceptance test and multiple tasks. each task has a test
+- user stories are branches in github
+- commit messages must reference task id #
+- we want core functionallity done by the end of this sprint
+  - aka. communication between server and backend
+- tasks are related to user stories through dependencies
+- tasks are their own issues on zenhub and are assigned to different group member
+- 'join group as student (#7)' will be reassigned as a task

@@ -4,6 +4,7 @@ import {
   CREATE_GROUP,
   GET_GROUP,
   GET_GROUP_SUCCESS,
+  UPDATE_GROUP,
   JOIN_GROUP,
   JOIN_GROUP_SUCCESS,
   LEAVE_GROUP,
@@ -31,6 +32,11 @@ export const getGroup = payload => ({
 
 export const getGroupSuccess = payload => ({
   type: GET_GROUP_SUCCESS,
+  payload,
+});
+
+export const updateGroup = payload => ({
+  type: UPDATE_GROUP,
   payload,
 });
 
