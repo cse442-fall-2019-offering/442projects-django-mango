@@ -31,7 +31,6 @@ class Login extends Component {
       },
       () => {
         this.setState({ isAuthenticating: false });
-        // alert(e);
       },
     );
   };
@@ -40,13 +39,14 @@ class Login extends Component {
     return new Promise(function auth(resolve, reject) {
       firebase.auth().onAuthStateChanged(function authStateChanged(user) {
         if (user) {
-          resolve(user);
           if (user.email.includes('@buffalo.edu')) {
             window.location.href = '/dashboard';
+            resolve(user);
           } else {
             alert('You must sign-in with an @buffalo.edu email address.');
             firebase.auth().signOut();
             window.location.href = '/';
+            resolve(user);
           }
         } else {
           reject(new Error('User not logged in'));
