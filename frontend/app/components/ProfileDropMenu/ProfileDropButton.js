@@ -1,15 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import firebase from "firebase"
+import { logout } from 'my-actions/userActions';
 
-
-
-// import styles from './ProfileDropButton-jss';
-
-export default function ProfileDropButton() {
+function ProfileDropButton(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(event) {
@@ -21,8 +20,8 @@ export default function ProfileDropButton() {
   }
 
   function signOut() {
-    firebase.auth().signOut();
-    //window.location.pathname = '/';
+    const { onLogout } = props;
+    onLogout();
   }
 
   return (
@@ -47,3 +46,15 @@ export default function ProfileDropButton() {
     </div>
   );
 }
+
+ProfileDropButton.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(logout()),
+});
+
+const ProfileDropButtonMapped = connect(mapDispatchToProps)(ProfileDropButton);
+
+export default ProfileDropButtonMapped;

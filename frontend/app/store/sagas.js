@@ -1,10 +1,11 @@
 import { all, call, fork } from 'redux-saga/effects';
 
 // import all the sagas here and add it to the below sagas array
+import userSaga from './sagas/userSaga';
 import groupSaga from './sagas/groupSaga';
 
 function* rootSaga() {
-  const sagas = [groupSaga];
+  const sagas = [userSaga, groupSaga];
 
   yield all(
     sagas.map(saga =>
