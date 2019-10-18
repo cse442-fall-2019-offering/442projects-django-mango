@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { checkAuth } from 'my-actions/userActions';
+import Loading from 'my-components/Loading';
 import { makeSelectAuth } from 'my-selectors/userSelectors';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -24,7 +25,7 @@ import { Dashboard, Group, Login } from '../pageListAsync';
 
 class App extends Component {
   state = {
-    isAuthenticated: false,
+    isAuthenticated: null,
   };
 
   static getDerivedStateFromProps(props) {
@@ -34,12 +35,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.props.onCheckAuth();
-    }, 500);
+    this.props.onCheckAuth();
   }
 
   render() {
+    if (this.state.isAuthenticated === null) {
+      return <Loading />;
+    }
     if (!this.state.isAuthenticated) {
       return (
         <div>

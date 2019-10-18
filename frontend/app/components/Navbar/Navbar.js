@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { getEmail } from 'my-actions/userActions';
+import { getUser } from 'my-actions/userActions';
 import { makeSelectEmail } from 'my-selectors/userSelectors';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -22,12 +22,13 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
-    const { onGetEmail } = this.props;
-    onGetEmail();
+    const { onGetUser } = this.props;
+    onGetUser();
   }
 
   render() {
     const { classes } = this.props;
+    const { email } = this.state;
     return (
       <header className={classes.navbar}>
         <nav className={classes.navbar_nav}>
@@ -51,7 +52,7 @@ class Navbar extends Component {
           <div className={classes.ProfileButton}>
             <ProfileDropButton />
           </div>
-          <div className={classes.navbar_email}>{this.state.email}</div>
+          <div className={classes.navbar_email}>{email}</div>
         </nav>
       </header>
     );
@@ -68,7 +69,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onGetEmail: () => dispatch(getEmail()),
+  onGetUser: () => dispatch(getUser()),
 });
 
 const NavbarMapped = connect(

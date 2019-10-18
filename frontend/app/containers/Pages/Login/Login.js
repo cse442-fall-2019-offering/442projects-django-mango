@@ -12,7 +12,6 @@ import './style.css';
 
 class Login extends Component {
   state = {
-    loading: false,
     isAuthenticating: true,
   };
 
@@ -20,7 +19,9 @@ class Login extends Component {
     signInFlow: 'popup',
     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
-      signInSuccess: () => false,
+      signInSuccess: () => {
+        this.authUser();
+      },
     },
   };
 
@@ -29,42 +30,29 @@ class Login extends Component {
       apiKey: process.env.REACT_APP_APIKEY,
       authDomain: process.env.REACT_APP_AUTHDOMAIN,
     });
-
-    this.authUser().then(
-      () => {
-        this.setState({ isAuthenticating: false });
-      },
-      e => {
-        this.setState({ isAuthenticating: false });
-        // eslint-disable-next-line no-alert
-        alert(e);
-      },
-    );
+    this.setState({ isAuthenticating: false });
   };
 
   authUser() {
-    return new Promise(function auth(resolve, reject) {
-      firebase.auth().onAuthStateChanged(function authStateChanged(user) {
-        if (user) {
-          resolve(user);
-          if (user.email.includes('@buffalo.edu')) {
-            const { onLogin } = this.props;
-            const payload = { user };
-            onLogin(payload);
-          } else {
-            // eslint-disable-next-line no-alert
-            alert('You must sign-in with an @buffalo.edu email address.');
-            firebase.auth().signOut();
-          }
+    const { onLogin } = this.props;
+    firebase.auth().onAuthStateChanged(function authStateChanged(user) {
+      if (user) {
+        localStorage.removeItem('firebaseui::rememberedAccounts');
+        if (user.email.includes('@buffalo.edu')) {
+          const payload = { user };
+          onLogin(payload);
         } else {
-          reject(new Error('User not logged in'));
+          // eslint-disable-next-line no-alert
+          alert('You must sign-in with an @buffalo.edu email address.');
+          firebase.auth().signOut();
         }
-      });
+      }
     });
+    return false;
   }
 
   render() {
-    if (this.state.loading || this.state.isAuthenticating) {
+    if (this.state.isAuthenticating) {
       return <Loading />;
     }
     return (
@@ -92,6 +80,9 @@ const mapDispatchToProps = dispatch => ({
   onLogin: payload => dispatch(login(payload)),
 });
 
-const LoginMapped = connect(mapDispatchToProps)(Login);
+const LoginMapped = connect(
+  null,
+  mapDispatchToProps,
+)(Login);
 
 export default LoginMapped;

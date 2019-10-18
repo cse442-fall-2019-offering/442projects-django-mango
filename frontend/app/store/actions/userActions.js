@@ -4,8 +4,8 @@ import {
   CHECK_AUTH,
   CHECK_AUTH_SUCCESS,
   CHECK_AUTH_FAILED,
-  GET_EMAIL,
-  GET_EMAIL_SUCCESS,
+  GET_USER,
+  GET_USER_SUCCESS,
 } from './actionConstants';
 
 export const login = payload => ({
@@ -29,11 +29,11 @@ export const checkAuthFailed = () => ({
   type: CHECK_AUTH_FAILED,
 });
 
-export const getEmail = () => ({
-  type: GET_EMAIL,
+export const getUser = () => ({
+  type: GET_USER,
 });
 
-export const getEmailSuccess = payload => ({
-  type: GET_EMAIL_SUCCESS,
+export const getUserSuccess = payload => ({
+  type: GET_USER_SUCCESS,
   payload,
 });

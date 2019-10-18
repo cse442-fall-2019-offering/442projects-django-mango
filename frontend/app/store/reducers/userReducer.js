@@ -2,7 +2,7 @@ import produce from 'immer';
 import {
   CHECK_AUTH_SUCCESS,
   CHECK_AUTH_FAILED,
-  GET_EMAIL_SUCCESS,
+  GET_USER_SUCCESS,
 } from '../actions/actionConstants';
 
 // The initial state of the App
@@ -23,8 +23,8 @@ const userReducer = (state = initialState, action) =>
       case CHECK_AUTH_FAILED:
         draft.auth = false;
         break;
-      case GET_EMAIL_SUCCESS:
-        draft.user.email = action.payload;
+      case GET_USER_SUCCESS:
+        draft.user = action.payload;
         break;
     }
   });

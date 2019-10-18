@@ -13,8 +13,6 @@ const ngrok =
 const { resolve } = require('path');
 const app = express();
 
-require('dotenv').config();
-
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 
