@@ -1,3 +1,12 @@
+// User
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const CHECK_AUTH = 'CHECK_AUTH';
+export const CHECK_AUTH_SUCCESS = 'CHECK_AUTH_SUCCESS';
+export const CHECK_AUTH_FAILED = 'CHECK_AUTH_FAILED';
+export const GET_USER = 'GET_USER';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+
 // Group
 export const GET_GROUPS = 'GET_GROUPS';
 export const GET_GROUPS_SUCCESS = 'GET_GROUPS_SUCCESS';
