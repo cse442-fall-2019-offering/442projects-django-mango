@@ -25,6 +25,7 @@ export function* loginSaga(action) {
   if (loginResponse.status === 200) {
     localStorage.setItem('token', loginResponse.data.token);
     yield put(push('/groups'));
+    window.location.reload();
   }
 }
 
@@ -32,6 +33,7 @@ export function* logoutSaga() {
   const logoutResponse = yield axios.get('logout');
   if (logoutResponse.status === 200) {
     localStorage.removeItem('token');
+    window.location.reload();
   }
 }
 

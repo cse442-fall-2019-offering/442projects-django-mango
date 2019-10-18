@@ -61,7 +61,7 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
-  onGetEmail: PropTypes.func.isRequired,
+  onGetUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

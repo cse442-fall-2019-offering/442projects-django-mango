@@ -55,6 +55,9 @@ const mapDispatchToProps = dispatch => ({
   onLogout: () => dispatch(logout()),
 });
 
-const ProfileDropButtonMapped = connect(mapDispatchToProps)(ProfileDropButton);
+const ProfileDropButtonMapped = connect(
+  null,
+  mapDispatchToProps,
+)(ProfileDropButton);
 
 export default ProfileDropButtonMapped;
