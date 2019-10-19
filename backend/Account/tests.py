@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from .models import User
+from django.core import management
 
 
 class AccountTests(APITestCase):
@@ -21,6 +22,7 @@ class AccountTests(APITestCase):
         Ensure that we can login
         """
 
+        management.call_command("lang")
         try:
             User.objects.get(identity="mango")
             self.assertFalse(msg="User Already Exists")
@@ -61,7 +63,8 @@ class AccountTests(APITestCase):
 
         url = reverse("auth")
         response = self.client.get(url, format="json")
-        if response.status_code == status.HTTP_200_OK:
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        if response.data.get("auth"):
             self.assertTrue(get_user(self.client).is_authenticated)
         else:
             self.assertFalse(get_user(self.client).is_authenticated)

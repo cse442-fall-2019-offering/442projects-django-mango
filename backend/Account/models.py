@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     identity = models.TextField(primary_key=True)
     email = models.EmailField(_("email address"), max_length=255, unique=True)
     name = models.CharField(max_length=64)
-    programming_languages = models.ManyToManyField("ProgrammingLanguage", blank=True)
+    programming_languages = models.ManyToManyField("user_group.Language", blank=True)
 
     USERNAME_FIELD = "identity"
 
@@ -41,14 +41,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-
-class ProgrammingLanguage(models.Model):
-    """
-    Programming Language
-    """
-
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
