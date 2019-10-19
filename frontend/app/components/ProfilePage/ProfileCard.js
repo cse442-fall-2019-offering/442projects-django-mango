@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -8,22 +8,42 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
+import { withStyles } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/styles';
+
+// <div className={props.classes.profile_name}>
+// <a href="/">{props.profile_name}</a>
+// </div>
+
+const useStyles = () => ({
   hello: {
-    padding: '30px 0px 0px 500px',
+    padding: '100px 0px 0px 0px',
+    // padding: '0 0 0 0',
+    alignItems: 'center',
+    position: 'relative',
+    display: 'flex',
+    margin: 0,
   },
   card: {
     maxWidth: 360,
     textAlign: 'center',
   },
   media: {
-    height: 255,
+    height: 270,
+  },
+  profile_email: {
+    color: 'black',
+    textDecoration: 'none',
+    '& a': {
+      color: 'black',
+      textDecoration: 'none',
+      fontSize: '20px',
+    },
   },
 });
 
-export default function ProfilePage() {
-  const classes = useStyles();
-
+const ProfileCard = props => {
+  const { classes } = props;
   return (
     <div className={classes.hello}>
       <Card className={classes.card}>
@@ -31,18 +51,17 @@ export default function ProfilePage() {
           <CardMedia
             className={classes.media}
             image="https://cse.buffalo.edu/~mhertz/MatthewPhoto.jpg"
-            title="User Photo"
+            title="Photo"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               Student Name
             </Typography>
-            <Typography gutterBottom variant="h6" component="h2">
-              Email Address
-            </Typography>
+            <div className={props.classes.profile_email}>
+              <a href="/">{props.profile_email}</a>
+            </div>
             <Typography variant="body2" color="textSecondary" component="p">
-              Hi, I am from University at Buffalo studying Computer Engineering.
-              My skills are: Python, Java, C++
+              Python, Java, C
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -60,4 +79,9 @@ export default function ProfilePage() {
       </Card>
     </div>
   );
-}
+};
+ProfileCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(useStyles)(ProfileCard);
