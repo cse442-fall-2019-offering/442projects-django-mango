@@ -9,7 +9,9 @@ import {
 export const initialState = {
   auth: false,
   user: {
-    email: null,
+    name: '',
+    email: '',
+    languages: [],
   },
 };
 

@@ -63,6 +63,33 @@ const styles = theme => ({
     height: 500,
     fontSize: '20px',
   },
+
+  submitButton: {
+    position: 'relative',
+    bottom: 900,
+    left: 940,
+    width: 170,
+    height: 40,
+    paddingTop: '50px',
+  },
+
+  close: {
+    position: 'relative',
+    bottom: 1300,
+    left: 1240,
+    width: 170,
+    height: 40,
+    paddingTop: '50px',
+  },
+
+  edit: {
+    position: 'relative',
+    bottom: 1320,
+    left: 940,
+    width: 170,
+    height: 40,
+    paddingTop: '50px',
+  },
 });
 
 export default styles;

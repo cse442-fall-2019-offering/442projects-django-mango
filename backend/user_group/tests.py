@@ -1,6 +1,7 @@
 """
 Before pushing, run 'python manage.py test'
 """
+
 from django.urls import reverse
 
 from rest_framework import status
@@ -11,9 +12,6 @@ from .models import Group, Language
 
 
 class GroupTests(APITestCase):
-
-    #  def sepUp(self):
-
     def create_group(self):
 
         number_of_groups = Group.objects.count()
@@ -28,7 +26,7 @@ class GroupTests(APITestCase):
         self.assertEqual(Group.objects.count(), number_of_groups + 1)
         identity = response.data.get("identity")
         group = Group.objects.get(identity=identity)
-        self.assertEqual(group.group_name, "mango")
+        self.assertEqual(group.name, "mango")
         lang1 = Language.objects.get(name="Python")
         lang2 = Language.objects.get(name="Java")
         lang3 = Language.objects.get(name="Go")
@@ -48,7 +46,7 @@ class GroupTests(APITestCase):
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         group = Group.objects.get(identity=group_pk)
-        self.assertEqual(group.group_name, "django")
+        self.assertEqual(group.name, "django")
         lang1 = Language.objects.get(name="Python")
         lang2 = Language.objects.get(name="Java")
         lang3 = Language.objects.get(name="Go")
