@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles } from '@material-ui/core/styles';
@@ -39,6 +41,7 @@ class Group extends Component {
     languages: [],
     members: [],
     changed: [],
+    member: null,
     edit: false,
     loading: true,
     error: false,
@@ -61,6 +64,7 @@ class Group extends Component {
       description: props.group.description,
       languages: props.group.languages,
       members: props.group.members,
+      member: props.group.member,
       loading: false,
     };
   }
@@ -141,53 +145,161 @@ class Group extends Component {
       return <NotFoundPage />;
     }
     const { classes } = this.props;
-    return (
-      <BrowserRouter>
-        <div className={classes.root}>
-          <Prompt
-            when={this.state.changed.length > 0}
-            message="You have unsaved changes, are you sure you want to leave?"
-          />
-          <Navbar />
-          <Grid container spacing={2} justify="left">
-            <Grid item md={3} sm={10} xs={12}>
-              <div className={classes.button}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="button"
-                  onClick={this.handleJoinGroup}
-                >
-                  Join
-                </Button>
-              </div>
-              <div className={classes.name}>{this.state.name}</div>
-              <ReactMediumEditor
-                className={classes.description}
-                text={this.state.description}
-                onChange={this.handleDescriptionChange}
-                placeholder="Group Description"
+    if (this.state.member) {
+      if (this.state.edit) {
+        return (
+          <BrowserRouter>
+            <div className={classes.root}>
+              <Prompt
+                when={this.state.changed.length > 0}
+                message="You have unsaved changes, are you sure you want to leave?"
               />
-              <div className={classes.languages}>
-                <div className={classes.languageTitle}>
-                  <p>Languages</p>
+              <Navbar />
+              <Grid container spacing={2}>
+                <Grid item md={3} sm={10} xs={12}>
+                  <div className={classes.button}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="button"
+                      onClick={this.handleLeaveGroup}
+                    >
+                      Leave
+                    </Button>
+                  </div>
+                  <div className={classes.name}>{this.state.name}</div>
+                  <ReactMediumEditor
+                    className={classes.description}
+                    text={this.state.description}
+                    onChange={this.handleDescriptionChange}
+                    placeholder="Group Description"
+                  />
+                  <div className={classes.languages}>
+                    <div className={classes.languageTitle}>
+                      <p>Languages</p>
+                    </div>
+                    {this.state.languages.map(language => (
+                      <p key={language}>{`${language}\n`}</p>
+                    ))}
+                  </div>
+                  <div className={classes.members}>
+                    {this.state.members.map(member => (
+                      <p key={member}>
+                        <AccountCircle />
+                        {` ${member}\n`}
+                      </p>
+                    ))}
+                  </div>
+                  <div className={classes.submitButton}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="button"
+                      onClick={this.handleUpdateGroup}
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                  <IconButton className="close" onClick={this.editChapter}>
+                    <Icon>close</Icon>
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </div>
+          </BrowserRouter>
+        );
+      }
+      return (
+        <BrowserRouter>
+          <div className={classes.root}>
+            <Prompt
+              when={this.state.changed.length > 0}
+              message="You have unsaved changes, are you sure you want to leave?"
+            />
+            <Navbar />
+            <Grid container spacing={2}>
+              <Grid item md={3} sm={10} xs={12}>
+                <div className={classes.button}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    disabled
+                  >
+                    Join
+                  </Button>
                 </div>
-                {this.state.languages.map(language => (
-                  <p key={language}>{`${language}\n`}</p>
-                ))}
-              </div>
-              <div className={classes.members}>
-                {this.state.members.map(member => (
-                  <p key={member}>
-                    <AccountCircle />
-                    {` ${member}\n`}
-                  </p>
-                ))}
-              </div>
+                <div className={classes.name}>{this.state.name}</div>
+                <div
+                  className={classes.description}
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: this.state.description }}
+                />
+                <div className={classes.languages}>
+                  <div className={classes.languageTitle}>
+                    <p>Languages</p>
+                  </div>
+                  {this.state.languages.map(language => (
+                    <p key={language}>{`${language}\n`}</p>
+                  ))}
+                </div>
+                <div className={classes.members}>
+                  {this.state.members.map(member => (
+                    <p key={member}>
+                      <AccountCircle />
+                      {` ${member}\n`}
+                    </p>
+                  ))}
+                </div>
+                <IconButton className="edit" onClick={this.editChapter}>
+                  <Icon>edit</Icon>
+                </IconButton>
+              </Grid>
             </Grid>
+          </div>
+        </BrowserRouter>
+      );
+    }
+    return (
+      <div className={classes.root}>
+        <Navbar />
+        <Grid container spacing={2}>
+          <Grid item md={3} sm={10} xs={12}>
+            <div className={classes.button}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={this.handleJoinGroup}
+              >
+                Join
+              </Button>
+            </div>
+            <div className={classes.name}>{this.state.name}</div>
+            <div
+              className={classes.description}
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: this.state.description }}
+            />
+            <div className={classes.languages}>
+              <div className={classes.languageTitle}>
+                <p>Languages</p>
+              </div>
+              {this.state.languages.map(language => (
+                <p key={language}>{`${language}\n`}</p>
+              ))}
+            </div>
+            <div className={classes.members}>
+              {this.state.members.map(member => (
+                <p key={member}>
+                  <AccountCircle />
+                  {` ${member}\n`}
+                </p>
+              ))}
+            </div>
           </Grid>
-        </div>
-      </BrowserRouter>
+        </Grid>
+      </div>
     );
   }
 }

@@ -16,6 +16,7 @@ export const initialState = {
     description: '',
     languages: [],
     members: [],
+    member: false,
     error: false,
   },
 };
@@ -31,10 +32,12 @@ const groupReducer = (state = initialState, action) =>
         draft.group = action.payload;
         break;
       case JOIN_GROUP_SUCCESS:
-        // draft.group = action.payload;
+        draft.group = action.payload;
+        draft.group.member = true;
         break;
       case LEAVE_GROUP_SUCCESS:
         draft.group = action.payload;
+        draft.group.member = false;
         break;
     }
   });

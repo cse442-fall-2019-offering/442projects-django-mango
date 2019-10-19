@@ -12,7 +12,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import User
-from .serializers import DetailSerializer
 
 
 @csrf_exempt
@@ -75,5 +74,12 @@ def users(request):
     GET Request: Gets user detail
     """
 
-    serializer = DetailSerializer(request.user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    languages = []
+    for language in request.user.programming_languages.all():
+        languages.append(language.name)
+    content = {
+        "email": request.user.email,
+        "name": request.user.name,
+        "languages": languages,
+    }
+    return Response(content, status=status.HTTP_200_OK)

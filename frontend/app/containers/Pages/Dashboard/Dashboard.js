@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getGroups, createGroup } from 'my-actions/groupActions';
+import { getGroups } from 'my-actions/groupActions';
 import Group from 'my-components/Dashboard/Group';
 import Loading from 'my-components/Loading';
 import Navbar from 'my-components/Navbar/Navbar';
@@ -42,9 +42,7 @@ class Dashboard extends Component {
   };
 
   handleCreateGroup = () => {
-    const { onCreateGroup } = this.props;
-    const payload = { groupId: 'not_yet_implemented' };
-    onCreateGroup(payload);
+    window.location.href = 'groups/new';
   };
 
   render() {
@@ -102,7 +100,6 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
   onGetGroups: PropTypes.func.isRequired,
-  onCreateGroup: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -111,7 +108,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   onGetGroups: () => dispatch(getGroups()),
-  onCreateGroup: payload => dispatch(createGroup(payload)),
 });
 
 const DashboardMapped = connect(
