@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Prompt } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
+import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles } from '@material-ui/core/styles';
@@ -47,7 +46,7 @@ class Group extends Component {
     error: false,
   };
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props, prevState) {
     if (props.group.length < 1) {
       return {
         loading: true,
@@ -59,14 +58,17 @@ class Group extends Component {
         error: true,
       };
     }
-    return {
-      name: props.group.name,
-      description: props.group.description,
-      languages: props.group.languages,
-      members: props.group.members,
-      member: props.group.member,
-      loading: false,
-    };
+    if (prevState.members !== props.group.members) {
+      return {
+        name: props.group.name,
+        description: props.group.description,
+        languages: props.group.languages,
+        members: props.group.members,
+        member: props.group.member,
+        loading: false,
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -111,9 +113,9 @@ class Group extends Component {
       }));
   };
 
-  handleDescriptionChange = description => {
+  handleDescriptionChange = desc => {
     this.setState({
-      description,
+      description: desc,
     });
     if (!containsObject('description', this.state.changed))
       this.setState(previousState => ({
@@ -148,74 +150,7 @@ class Group extends Component {
     if (this.state.member) {
       if (this.state.edit) {
         return (
-          <BrowserRouter>
-            <div className={classes.root}>
-              <Prompt
-                when={this.state.changed.length > 0}
-                message="You have unsaved changes, are you sure you want to leave?"
-              />
-              <Navbar />
-              <Grid container spacing={2}>
-                <Grid item md={3} sm={10} xs={12}>
-                  <div className={classes.button}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="button"
-                      onClick={this.handleLeaveGroup}
-                    >
-                      Leave
-                    </Button>
-                  </div>
-                  <div className={classes.name}>{this.state.name}</div>
-                  <ReactMediumEditor
-                    className={classes.description}
-                    text={this.state.description}
-                    onChange={this.handleDescriptionChange}
-                    placeholder="Group Description"
-                  />
-                  <div className={classes.languages}>
-                    <div className={classes.languageTitle}>
-                      <p>Languages</p>
-                    </div>
-                    {this.state.languages.map(language => (
-                      <p key={language}>{`${language}\n`}</p>
-                    ))}
-                  </div>
-                  <div className={classes.members}>
-                    {this.state.members.map(member => (
-                      <p key={member}>
-                        <AccountCircle />
-                        {` ${member}\n`}
-                      </p>
-                    ))}
-                  </div>
-                  <div className={classes.submitButton}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="button"
-                      onClick={this.handleUpdateGroup}
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                  <IconButton className="close" onClick={this.editChapter}>
-                    <Icon>close</Icon>
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </div>
-          </BrowserRouter>
-        );
-      }
-      return (
-        <BrowserRouter>
           <div className={classes.root}>
-            <Prompt
-              when={this.state.changed.length > 0}
-              message="You have unsaved changes, are you sure you want to leave?"
-            />
             <Navbar />
             <Grid container spacing={2}>
               <Grid item md={3} sm={10} xs={12}>
@@ -224,16 +159,17 @@ class Group extends Component {
                     variant="contained"
                     color="primary"
                     type="button"
-                    disabled
+                    onClick={this.handleLeaveGroup}
                   >
-                    Join
+                    Leave
                   </Button>
                 </div>
                 <div className={classes.name}>{this.state.name}</div>
-                <div
+                <ReactMediumEditor
                   className={classes.description}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: this.state.description }}
+                  text={this.state.description}
+                  onChange={this.handleDescriptionChange}
+                  placeholder="Group Description"
                 />
                 <div className={classes.languages}>
                   <div className={classes.languageTitle}>
@@ -251,13 +187,68 @@ class Group extends Component {
                     </p>
                   ))}
                 </div>
-                <IconButton className="edit" onClick={this.editChapter}>
-                  <Icon>edit</Icon>
+                <div className={classes.submitButton}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    onClick={this.handleUpdateGroup}
+                    disabled={this.state.changed.length === 0}
+                  >
+                    Submit
+                  </Button>
+                </div>
+                <IconButton className={classes.close} onClick={this.editGroup}>
+                  <CloseIcon />
                 </IconButton>
               </Grid>
             </Grid>
           </div>
-        </BrowserRouter>
+        );
+      }
+      return (
+        <div className={classes.root}>
+          <Navbar />
+          <Grid container spacing={2}>
+            <Grid item md={3} sm={10} xs={12}>
+              <div className={classes.button}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  disabled
+                >
+                  Join
+                </Button>
+              </div>
+              <div className={classes.name}>{this.state.name}</div>
+              <div
+                className={classes.description}
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: this.state.description }}
+              />
+              <div className={classes.languages}>
+                <div className={classes.languageTitle}>
+                  <p>Languages</p>
+                </div>
+                {this.state.languages.map(language => (
+                  <p key={language}>{`${language}\n`}</p>
+                ))}
+              </div>
+              <div className={classes.members}>
+                {this.state.members.map(member => (
+                  <p key={member}>
+                    <AccountCircle />
+                    {` ${member}\n`}
+                  </p>
+                ))}
+              </div>
+              <IconButton className={classes.edit} onClick={this.editGroup}>
+                <EditIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </div>
       );
     }
     return (
