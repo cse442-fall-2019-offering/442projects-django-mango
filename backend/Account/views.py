@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from user_group.models import Language
 from .models import User
 
 
@@ -67,19 +68,41 @@ def auth(request):
         return Response(content, status=status.HTTP_200_OK)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 @permission_classes((IsAuthenticated,))
 def users(request):
     """
     GET Request: Gets user detail
+    POST Request: Updates user info
     """
 
-    languages = []
-    for language in request.user.programming_languages.all():
-        languages.append(language.name)
-    content = {
-        "email": request.user.email,
-        "name": request.user.name,
-        "languages": languages,
-    }
-    return Response(content, status=status.HTTP_200_OK)
+    if request.method == "GET":
+        languages = []
+        for language in request.user.programming_languages.all():
+            languages.append(language.name)
+        content = {
+            "email": request.user.email,
+            "name": request.user.name,
+            "languages": languages,
+        }
+        return Response(content, status=status.HTTP_200_OK)
+    if request.method == "POST":
+        user = request.user
+        name = request.data.get("name")
+        if name:
+            user.name = name
+        languages = request.data.get("languages")
+        if languages:
+            user.programming_languages.clear()
+            for language in languages:
+                user.programming_languages.add(Language.objects.get(name=language))
+        user.save()
+        languages = []
+        for language in user.programming_languages.all():
+            languages.append(language.name)
+        content = {
+            "email": user.email,
+            "name": user.name,
+            "languages": languages,
+        }
+        return Response(content, status=status.HTTP_200_OK)
