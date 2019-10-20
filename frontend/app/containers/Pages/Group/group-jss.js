@@ -66,7 +66,7 @@ const styles = theme => ({
 
   submitButton: {
     position: 'relative',
-    bottom: 900,
+    bottom: 1430,
     left: 940,
     width: 170,
     height: 40,
@@ -75,20 +75,20 @@ const styles = theme => ({
 
   close: {
     position: 'relative',
-    bottom: 1300,
-    left: 1240,
-    width: 170,
-    height: 40,
-    paddingTop: '50px',
+    bottom: 1385,
+    right: 50,
+    width: 50,
+    height: 50,
+    zIndex: 5,
   },
 
   edit: {
     position: 'relative',
-    bottom: 1320,
-    left: 940,
-    width: 170,
-    height: 40,
-    paddingTop: '50px',
+    bottom: 1250,
+    left: 785,
+    width: 50,
+    height: 50,
+    zIndex: 5,
   },
 });
 
