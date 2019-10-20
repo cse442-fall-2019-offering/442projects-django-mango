@@ -3,13 +3,14 @@ Before pushing, run 'python manage.py test'
 """
 
 from django.contrib.auth import get_user
+from django.core import management
 from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from user_group.models import Language
 from .models import User
-from django.core import management
 
 
 class AccountTests(APITestCase):
@@ -79,6 +80,25 @@ class AccountTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("email"), "student@buffalo.edu")
 
+    def updateUserDetail(self):
+        """
+        Ensure that we can update user information
+        """
+
+        url = reverse("users")
+        data = {
+            "languages": ["Python", "Java"],
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        lang1 = Language.objects.get(name="Python")
+        lang2 = Language.objects.get(name="Java")
+        lang3 = Language.objects.get(name="C++")
+        languages = get_user(self.client).programming_languages.all()
+        self.assertTrue(lang1 in languages)
+        self.assertTrue(lang2 in languages)
+        self.assertFalse(lang3 in languages)
+
     def testAccount(self):
         """
         Ensure that the Account app is working correctly
@@ -88,4 +108,5 @@ class AccountTests(APITestCase):
         self.login()
         self.auth()
         self.currentUserDetail()
+        self.updateUserDetail()
         self.logout()
