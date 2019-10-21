@@ -15,7 +15,7 @@ const styles = () => ({
   },
   languages: {
     textAlign: 'center',
-    color: '#990099',
+    color: '#ffff00',
     marginTop: '50px',
   },
   language: {
@@ -30,7 +30,7 @@ const Group = props => {
       <div className={classes.name}>{props.group[1]}</div>
       <div className={classes.languages}>
         {props.group[2].map(language => (
-          <div className={classes.language}>
+          <div className={classes.language} key={language}>
             <p>{`${language}\n`}</p>
           </div>
         ))}

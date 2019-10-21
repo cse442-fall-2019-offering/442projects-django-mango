@@ -1,10 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-// import styles from './ProfileDropButton-jss';
 
-export default function ProfileDropButton() {
+import { logout } from 'my-actions/userActions';
+
+function ProfileDropButton(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(event) {
@@ -13,6 +17,15 @@ export default function ProfileDropButton() {
 
   function handleClose() {
     setAnchorEl(null);
+  }
+
+  function handleProfileClick() {
+    window.location.href = '/profile';
+  }
+
+  function signOut() {
+    const { onLogout } = props;
+    onLogout();
   }
 
   return (
@@ -31,9 +44,24 @@ export default function ProfileDropButton() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+        <MenuItem onClick={signOut}>Logout</MenuItem>
       </Menu>
     </div>
   );
 }
+
+ProfileDropButton.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(logout()),
+});
+
+const ProfileDropButtonMapped = connect(
+  null,
+  mapDispatchToProps,
+)(ProfileDropButton);
+
+export default ProfileDropButtonMapped;

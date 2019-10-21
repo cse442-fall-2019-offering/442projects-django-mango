@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReactMediumEditor Component 1`] = `
+<div
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<p>Test</p>",
+    }
+  }
+  onLanguagesChange={[Function]}
+  selectedLanguages={[Array]}
+/>
+`;

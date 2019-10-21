@@ -40,6 +40,7 @@ const styles = theme => ({
       color: 'white',
       textDecoration: 'none',
       display: 'inline-block',
+      fontSize: '1.5vw',
     },
     '& a:hover': {
       color: '#EB2121',

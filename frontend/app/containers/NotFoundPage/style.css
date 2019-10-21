@@ -1,0 +1,42 @@
+.background {
+    background-color: rgb(40, 40, 40);
+    color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100vh;
+}
+
+.centerbox {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+    padding: 70px 30px;
+}
+
+.link {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+h1 {
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    padding-bottom: 15px;
+    position: static;
+    text-align: left;
+    font-size: 30px;
+    font-family: "Sans-serif";
+}
+
+h2 {
+    top: 50%;
+    left: 50%;
+    color: rgb(150, 150, 150);
+    margin: 0;
+    padding-bottom: 12px;
+    position: static;
+    text-align: left;
+    font-size: 18px;
+    font-family: "Sans-serif";
+}

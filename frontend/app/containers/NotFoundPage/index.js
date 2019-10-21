@@ -1,19 +1,19 @@
-/**
- * NotFoundPage
- *
- * This is the page we show when the user visits a url that doesn't have a route
- *
- */
-
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
-import messages from './messages';
+import './style.css';
 
 export default function NotFound() {
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <span>
+      <div className="background">
+        <div className="centerbox">
+          <h1>Django Mango</h1>
+          <h2>404 Error.</h2>
+          <h2 href="/">The requested URL was not found on this server.</h2>
+          <a className="link" href="/">
+            Return to Login.
+          </a>
+        </div>
+      </div>
+    </span>
   );
 }

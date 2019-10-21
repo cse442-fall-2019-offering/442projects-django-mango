@@ -5,6 +5,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const Dotenv = require('dotenv-webpack');
+
 module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
@@ -114,6 +116,7 @@ module.exports = options => ({
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
+    new Dotenv(),
   ]),
   resolve: {
     modules: ['node_modules', 'app'],
