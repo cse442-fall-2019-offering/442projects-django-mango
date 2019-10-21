@@ -16,12 +16,12 @@ import styles from './dashboard-jss';
 
 class Dashboard extends Component {
   state = {
-    groups: [],
+    groups: null,
     loading: false,
   };
 
-  static getDerivedStateFromProps(props) {
-    if (props.groups.length < 1) {
+  static getDerivedStateFromProps(props, prevState) {
+    if (prevState.groups === null) {
       return {
         loading: true,
       };

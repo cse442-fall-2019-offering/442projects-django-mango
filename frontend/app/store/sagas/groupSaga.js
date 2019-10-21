@@ -36,7 +36,7 @@ export function* createGroupSaga(action) {
     languages: payload.languages,
   });
   if (groupResponse.status === 200) {
-    yield put(push(`groups/${groupResponse.data.identity}`));
+    yield put(push(`${groupResponse.data.identity}`));
   }
 }
 
