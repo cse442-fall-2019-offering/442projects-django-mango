@@ -31,7 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
 
     # identity = models.TextField(primary_key=True)
-    identity = models.CharField(max_lengnth=250, primary_key=True)
+    identity = models.CharField(max_length=250, primary_key=True)
     email = models.EmailField(_("email address"), max_length=255, unique=True)
     name = models.CharField(max_length=64)
     programming_languages = models.ManyToManyField("user_group.Language", blank=True)
