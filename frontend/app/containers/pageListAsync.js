@@ -16,3 +16,8 @@ export const Group = loadable(() => import('./Pages/Group/Group'), {
 export const Login = loadable(() => import('./Pages/Login/Login'), {
   fallback: <Loading />,
 });
+
+// Profile
+export const Profile = loadable(() => import('./Pages/ProfilePage/Profile'), {
+  fallback: <Loading />,
+});
