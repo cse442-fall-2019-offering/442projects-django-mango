@@ -83,8 +83,14 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        # "ENGINE": "django.db.backends.sqlite3",
+        'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'chanshuy_db',
+        'NAME': 'cse442_542_2019_fall_teamd_db',
+        'USER': 'chanshuy',
+        'PASSWORD': '50244173',
+        'HOST': 'tethys.cse.buffalo.edu',
+        'PORT': '3306',
     }
 }
 
