@@ -6,6 +6,7 @@ import {
   CHECK_AUTH_FAILED,
   GET_USER,
   GET_USER_SUCCESS,
+  UPDATE_USER,
 } from './actionConstants';
 
 export const login = payload => ({
@@ -35,5 +36,10 @@ export const getUser = () => ({
 
 export const getUserSuccess = payload => ({
   type: GET_USER_SUCCESS,
+  payload,
+});
+
+export const updateUser = payload => ({
+  type: UPDATE_USER,
   payload,
 });

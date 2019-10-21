@@ -68,12 +68,12 @@ def auth(request):
         return Response(content, status=status.HTTP_200_OK)
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET", "PUT"])
 @permission_classes((IsAuthenticated,))
 def users(request):
     """
     GET Request: Gets user detail
-    POST Request: Updates user info
+    PUT Request: Updates user info
     """
 
     if request.method == "GET":
@@ -86,7 +86,7 @@ def users(request):
             "languages": languages,
         }
         return Response(content, status=status.HTTP_200_OK)
-    if request.method == "POST":
+    if request.method == "PUT":
         user = request.user
         name = request.data.get("name")
         if name:
