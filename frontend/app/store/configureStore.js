@@ -14,7 +14,7 @@ import rootSaga from './sagas';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'group'],
+  whitelist: ['user', 'group', 'languages'],
   stateReconciler: autoMergeLevel2,
 };
 

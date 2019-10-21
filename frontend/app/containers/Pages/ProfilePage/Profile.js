@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getUser } from 'my-actions/userActions';
+import { getUser, updateUser } from 'my-actions/userActions';
 import { createStructuredSelector } from 'reselect';
 
-import ProfileCard from 'my-components/ProfilePage/ProfileCard';
+import ProfileCard from 'my-components/ProfileCard/ProfileCard';
 import Loading from 'my-components/Loading';
 import Navbar from 'my-components/Navbar/Navbar';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import {
   makeSelectEmail,
   makeSelectName,
@@ -20,14 +21,25 @@ class Profile extends Component {
     email: null,
     name: null,
     languages: null,
+    updated: false,
+    loading: true,
   };
 
-  static getDerivedStateFromProps(props) {
-    return {
-      email: props.email,
-      name: props.name,
-      languages: props.languages,
-    };
+  static getDerivedStateFromProps(props, prevState) {
+    if (props.email.length < 1) {
+      return {
+        loading: true,
+      };
+    }
+    if (prevState.email !== props.email) {
+      return {
+        email: props.email,
+        name: props.name,
+        languages: props.languages,
+        loading: false,
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -38,6 +50,18 @@ class Profile extends Component {
   handleLanguagesChange = languages => {
     this.setState({
       languages,
+      updated: true,
+    });
+  };
+
+  handleUpdate = () => {
+    const { onUpdateUser } = this.props;
+    const payload = {
+      languages: this.state.languages,
+    };
+    onUpdateUser(payload);
+    this.setState({
+      updated: false,
     });
   };
 
@@ -46,13 +70,29 @@ class Profile extends Component {
       return <Loading />;
     }
     const { classes } = this.props;
-    const { email } = this.state;
-    const { name } = this.state;
-    const { languages } = this.state;
+    const { email, name, languages } = this.state;
     return (
       <div className={classes.root}>
         <Navbar />
-        <ProfileCard email={email} name={name} languages={languages} />
+        <div className={classes.card}>
+          <ProfileCard
+            email={email}
+            name={name}
+            languages={languages}
+            onLanguagesChange={this.handleLanguagesChange}
+          />
+        </div>
+        <div className={classes.button}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="button"
+            onClick={this.handleUpdate}
+            disabled={!this.state.updated}
+          >
+            Update
+          </Button>
+        </div>
       </div>
     );
   }
@@ -61,6 +101,7 @@ class Profile extends Component {
 Profile.propTypes = {
   classes: PropTypes.object.isRequired,
   onGetUser: PropTypes.func.isRequired,
+  onUpdateUser: PropTypes.func.isRequired,
 };
 // in
 const mapStateToProps = createStructuredSelector({
@@ -71,6 +112,7 @@ const mapStateToProps = createStructuredSelector({
 // out
 const mapDispatchToProps = dispatch => ({
   onGetUser: () => dispatch(getUser()),
+  onUpdateUser: payload => dispatch(updateUser(payload)),
 });
 
 const ProfileMapped = connect(

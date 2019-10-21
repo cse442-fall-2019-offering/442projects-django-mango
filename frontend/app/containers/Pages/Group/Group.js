@@ -19,6 +19,7 @@ import {
 } from 'my-actions/groupActions';
 import Loading from 'my-components/Loading';
 import ReactMediumEditor from 'my-components/Editor/ReactMediumEditor';
+import LangMenu from 'my-components/LangMenu/LangMenu';
 import Navbar from 'my-components/Navbar/Navbar';
 import { makeSelectGroup } from 'my-selectors/groupSelectors';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -41,7 +42,7 @@ class Group extends Component {
     members: [],
     changed: [],
     member: null,
-    edit: false,
+    edit: true,
     loading: true,
     error: false,
   };
@@ -171,13 +172,11 @@ class Group extends Component {
                   onChange={this.handleDescriptionChange}
                   placeholder="Group Description"
                 />
-                <div className={classes.languages}>
-                  <div className={classes.languageTitle}>
-                    <p>Languages</p>
-                  </div>
-                  {this.state.languages.map(language => (
-                    <p key={language}>{`${language}\n`}</p>
-                  ))}
+                <div className={classes.languagesMenu}>
+                  <LangMenu
+                    selectedLanguages={this.state.languages}
+                    onLanguagesChange={this.handleLanguagesChange}
+                  />
                 </div>
                 <div className={classes.members}>
                   {this.state.members.map(member => (

@@ -12,6 +12,14 @@ export const Group = loadable(() => import('./Pages/Group/Group'), {
   fallback: <Loading />,
 });
 
+// group creatipn
+export const GroupCreation = loadable(
+  () => import('./Pages/GroupCreation/GroupCreation'),
+  {
+    fallback: <Loading />,
+  },
+);
+
 // login
 export const Login = loadable(() => import('./Pages/Login/Login'), {
   fallback: <Loading />,

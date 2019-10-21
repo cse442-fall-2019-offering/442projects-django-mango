@@ -15,4 +15,22 @@ const makeSelectEmail = () =>
     userState => userState.user.email,
   );
 
-export { selectUser, makeSelectAuth, makeSelectEmail };
+const makeSelectName = () =>
+  createSelector(
+    selectUser,
+    userState => userState.user.name,
+  );
+
+const makeSelectLanguages = () =>
+  createSelector(
+    selectUser,
+    userState => userState.user.languages,
+  );
+
+export {
+  selectUser,
+  makeSelectAuth,
+  makeSelectEmail,
+  makeSelectName,
+  makeSelectLanguages,
+};

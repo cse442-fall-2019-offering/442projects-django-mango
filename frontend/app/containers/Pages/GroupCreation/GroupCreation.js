@@ -1,136 +1,114 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const languages = [
-  {
-    value: 'Python',
-    label: 'Python',
-  },
-  {
-    value: 'JavaScript',
-    label: 'JavaScript',
-  },
-  {
-    value: 'Java',
-    label: 'Java',
-  },
-  {
-    value: 'C',
-    label: 'C',
-  },
-  {
-    value: 'C++',
-    label: 'C++',
-  },
-  {
-    value: 'C#',
-    label: 'C#',
-  },
-  {
-    value: 'Ruby',
-    label: 'Ruby',
-  },
-  {
-    value: 'Swift',
-    label: 'Swift',
-  },
-];
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  dense: {
-    marginTop: theme.spacing(2),
-  },
-  menu: {
-    width: 200,
-  },
-}));
+import { createGroup } from 'my-actions/groupActions';
+import ReactMediumEditor from 'my-components/Editor/ReactMediumEditor';
+import LangMenu from 'my-components/LangMenu/LangMenu';
+import Navbar from 'my-components/Navbar/Navbar';
+import { TextField } from '@material-ui/core';
+import styles from './groupCreation-jss';
 
-export default function GroupCreation() {
-  const classes = useStyles();
-  const [values, setValues] = React.useState({
-    groupname: 'Group Name',
-    name: 'Student Name',
-    email: 'Student Email',
-    description: 'This Group is...',
-  });
-
-  const handleChange = groupname => event => {
-    setValues({ ...values, [groupname]: event.target.value });
+class GroupCreation extends Component {
+  state = {
+    name: '',
+    description: '<p></p>',
+    languages: [],
+    created: false,
   };
 
-  return (
-    <form className={classes.container} noValidate autoComplete="off">
-      <TextField
-        id="outlined-groupname"
-        label="Group Name"
-        className={classes.textField}
-        value={values.groupname}
-        onChange={handleChange('groupname')}
-        margin="normal"
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-name"
-        label="Student Name"
-        className={classes.textField}
-        value={values.name}
-        onChange={handleChange('name')}
-        margin="normal"
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-email"
-        label="Email"
-        className={classes.textField}
-        values={values.email}
-        onChange={handleChange('email')}
-        margin="normal"
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-description-flexible"
-        label="Description"
-        multiline
-        rowsMax="20"
-        value={values.description}
-        onChange={handleChange('description')}
-        className={classes.textField}
-        margin="normal"
-        helperText="Group Description"
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-select-language"
-        select
-        label="Programming Languages"
-        className={classes.textField}
-        value={values.languages}
-        onChange={handleChange('languages')}
-        SelectProps={{
-          MenuProps: {
-            className: classes.menu,
-          },
-        }}
-        helperText="Select Programming Language"
-        margin="normal"
-        variant="outlined"
-      >
-        {languages.map(option => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    </form>
-  );
+  handleNameChange = event => {
+    this.setState({
+      name: event.target.value,
+    });
+  };
+
+  handleDescriptionChange = description => {
+    this.setState({
+      description,
+    });
+  };
+
+  handleLanguagesChange = languages => {
+    this.setState({
+      languages,
+    });
+  };
+
+  handleCreateGroup = () => {
+    const { onCreateGroup } = this.props;
+    const payload = {
+      name: this.state.name,
+      description: this.state.description,
+      languages: this.state.languages,
+    };
+    onCreateGroup(payload);
+    this.setState({
+      created: true,
+    });
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <Navbar />
+        <Grid container spacing={2}>
+          <Grid item md={3} sm={10} xs={12}>
+            <TextField
+              className={classes.name}
+              value={this.state.name}
+              onChange={this.handleNameChange}
+              placeholder="Group Name"
+              margin="normal"
+              variant="outlined"
+            />
+            <ReactMediumEditor
+              className={classes.description}
+              text={this.state.description}
+              onChange={this.handleDescriptionChange}
+              placeholder="Group Description"
+            />
+            <div className={classes.languages}>
+              <LangMenu
+                selectedLanguages={this.state.languages}
+                onLanguagesChange={this.handleLanguagesChange}
+              />
+            </div>
+            <div className={classes.submitButton}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={this.handleCreateGroup}
+                disabled={this.state.created}
+              >
+                Submit
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
 }
+
+GroupCreation.propTypes = {
+  classes: PropTypes.object.isRequired,
+  onCreateGroup: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  onCreateGroup: payload => dispatch(createGroup(payload)),
+});
+
+const GroupCreationMapped = connect(
+  null,
+  mapDispatchToProps,
+)(GroupCreation);
+
+export default withStyles(styles)(GroupCreationMapped);

@@ -9,6 +9,7 @@ import {
   LOGOUT,
   CHECK_AUTH,
   GET_USER,
+  UPDATE_USER,
 } from '../actions/actionConstants';
 
 // import actions
@@ -61,9 +62,14 @@ export function* getUserSaga() {
   }
 }
 
+export function* updateUserSaga(action) {
+  yield axios.put('users', action.payload);
+}
+
 export default function* watchUserSaga() {
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(LOGOUT, logoutSaga);
   yield takeLatest(CHECK_AUTH, checkAuthSaga);
   yield takeLatest(GET_USER, getUserSaga);
+  yield takeLatest(UPDATE_USER, updateUserSaga);
 }

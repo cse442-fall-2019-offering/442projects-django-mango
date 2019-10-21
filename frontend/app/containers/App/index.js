@@ -21,7 +21,13 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 
-import { Dashboard, Group, Login, Profile } from '../pageListAsync';
+import {
+  Dashboard,
+  Group,
+  Login,
+  Profile,
+  GroupCreation,
+} from '../pageListAsync';
 
 class App extends Component {
   state = {
@@ -54,6 +60,7 @@ class App extends Component {
       <div>
         <Switch>
           <Route exact path="/groups" component={withRouter(Dashboard)} />
+          <Route exact path="/groups/new" component={GroupCreation} />
           <Route exact path="/groups/:groupId" component={withRouter(Group)} />
           <Route exact path="/profile" component={Profile} />
           <Route component={NotFoundPage} />

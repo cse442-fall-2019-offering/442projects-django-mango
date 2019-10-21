@@ -1,75 +1,38 @@
 import React, { Component } from 'react';
-import { withStyles, styles, useTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import { getLanguages } from 'my-actions/languagesActions';
 import { makeSelectLanguages } from 'my-selectors/languagesSelectors';
 import { connect } from 'react-redux';
-import Loading from 'my-components/Loading';
 import { createStructuredSelector } from 'reselect';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+import MultiSelect from '@khanacademy/react-multi-select';
 
-function getStyles(language, languageName, theme) {
-  return {
-    fontWeight:
-      languageName.indexOf(language) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
+function createOptions(list) {
+  const output = [];
+  list.forEach(function(element) {
+    output.push({ label: element, value: element });
+  });
+  return output;
 }
-
-const useStyles = styles(theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: 2,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
-  },
-}));
 
 class LangMenu extends Component {
   state = {
     languages: [],
   };
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props, prevState) {
     if (props.languages.length < 1) {
       return {
         loading: true,
       };
     }
-    return {
-      languages: props.languages,
-      loading: false,
-    };
+    if (prevState.languages.length === 0) {
+      return {
+        languages: createOptions(props.languages),
+        loading: false,
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -79,54 +42,31 @@ class LangMenu extends Component {
 
   render() {
     if (this.state.loading) {
-      return <Loading />;
+      return null;
     }
-    const { classes } = this.props;
-    const theme = useTheme();
+    const { selectedLanguages, onLanguagesChange } = this.props;
     const { languages } = this.state;
-    const [languageName, setLanguageName] = React.useState([]);
-
-    const handleChange = event => {
-      setLanguageName(event.target.value);
-    };
 
     return (
-      <div className={classes.root}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-chip">Languages</InputLabel>
-          <Select
-            multiple
-            value={languageName}
-            onChange={handleChange}
-            input={<Input id="select-multiple-chip" />}
-            renderValue={selected => (
-              <div className={classes.chips}>
-                {selected.map(value => (
-                  <Chip key={value} label={value} className={classes.chip} />
-                ))}
-              </div>
-            )}
-            MenuProps={MenuProps}
-          >
-            {languages.map(language => (
-              <MenuItem
-                key={language}
-                value={language}
-                style={getStyles(language, languageName, theme)}
-              >
-                {language}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+      <MultiSelect
+        options={languages}
+        selected={selectedLanguages}
+        onSelectedChanged={selected => onLanguagesChange(selected)}
+        overrideStrings={{
+          selectSomeItems: 'Programming Languages',
+          allItemsAreSelected: 'All Languages are Selected',
+          selectAll: 'Select All',
+          search: 'Search',
+        }}
+      />
     );
   }
 }
 
 LangMenu.propTypes = {
-  classes: PropTypes.object.isRequired,
   onGetLanguages: PropTypes.func.isRequired,
+  selectedLanguages: PropTypes.array.isRequired,
+  onLanguagesChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -142,4 +82,4 @@ const LangMenuMapped = connect(
   mapDispatchToProps,
 )(LangMenu);
 
-export default withStyles(styles)(LangMenuMapped);
+export default LangMenuMapped;

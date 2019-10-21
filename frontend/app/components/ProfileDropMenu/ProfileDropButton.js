@@ -19,6 +19,10 @@ function ProfileDropButton(props) {
     setAnchorEl(null);
   }
 
+  function handleProfileClick() {
+    window.location.href = '/profile';
+  }
+
   function signOut() {
     const { onLogout } = props;
     onLogout();
@@ -40,7 +44,7 @@ function ProfileDropButton(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
         <MenuItem onClick={signOut}>Logout</MenuItem>
       </Menu>
     </div>
