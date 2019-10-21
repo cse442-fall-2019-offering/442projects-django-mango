@@ -42,7 +42,7 @@ class Group extends Component {
     members: [],
     changed: [],
     member: null,
-    edit: true,
+    edit: false,
     loading: true,
     error: false,
   };
