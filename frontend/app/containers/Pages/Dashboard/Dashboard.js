@@ -20,8 +20,8 @@ class Dashboard extends Component {
     loading: false,
   };
 
-  static getDerivedStateFromProps(props, prevState) {
-    if (prevState.groups === null) {
+  static getDerivedStateFromProps(props) {
+    if (props.groups === null) {
       return {
         loading: true,
       };

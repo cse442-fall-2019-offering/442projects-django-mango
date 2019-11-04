@@ -86,10 +86,8 @@ class AccountTests(APITestCase):
         """
 
         url = reverse("users")
-        data = {
-            "languages": ["Python", "Java"],
-        }
-        response = self.client.post(url, data, format="json")
+        data = {"languages": ["Python", "Java"]}
+        response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         lang1 = Language.objects.get(name="Python")
         lang2 = Language.objects.get(name="Java")
