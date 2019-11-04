@@ -85,7 +85,6 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         # "ENGINE": "django.db.backends.mysql",
-        # # 'NAME': 'chanshuy_db',
         # "NAME": "cse442_542_2019_fall_teamd_db",
         # "USER": "chanshuy",
         # "PASSWORD": "50244173",

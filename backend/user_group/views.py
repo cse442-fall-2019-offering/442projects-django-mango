@@ -8,7 +8,6 @@ from .serializers import GroupSerializer
 
 from .sort import sort_group
 
-
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def lang_api(request):

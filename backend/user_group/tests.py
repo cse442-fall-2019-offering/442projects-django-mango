@@ -12,7 +12,6 @@ from .models import Group, Language
 
 from .sort import sort_group
 
-
 class GroupTests(APITestCase):
     def create_group(self):
 
@@ -67,6 +66,29 @@ class GroupTests(APITestCase):
             self.assertTrue(False)
         except:
             pass
+    
+    def sort_groups(self):
+        groups_sample = [['i1','djangomango',['Python','Java'],['user1','user2']],
+          ['i2','foreach',['Go', 'C++', 'Visual Basic'],['user3', 'user4', 'user5', 'user6', 'user7']],
+          ['i3','javagroup',['PHP','Java','C'],['user8','user9','user10', 'user11']],
+          ['i4', 'ccc',['SQL','Java','Groovy','Python'],['user12']]]
+        user_lang_sample1 = ['Java', 'C'] # i3
+        user_lang_sample2 = ['Python', 'SQL'] # i4
+        user_lang_sample3 = ['Java', 'SQL', 'Go', 'Swift'] # i4
+        user_lang_sample4 = ['Python', 'Java'] #i1
+        group1 = sort_group(groups_sample, user_lang_sample1)
+        group2 = sort_group(groups_sample, user_lang_sample2)
+        group3 = sort_group(groups_sample, user_lang_sample3)
+        group4 = sort_group(groups_sample, user_lang_sample4)
+        self.assertEqual(group1[3], groups_sample[1])
+        self.assertEqual(group2[3], groups_sample[1])
+        self.assertEqual(group3[3], groups_sample[1])
+        self.assertEqual(group4[3], groups_sample[1])
+        
+        self.assertEqual(group1[0], groups_sample[2])
+        self.assertEqual(group2[0], groups_sample[3])
+        self.assertEqual(group3[0], groups_sample[3])
+        self.assertEqual(group4[0], groups_sample[0])
 
     def sort_groups(self):
         groups_sample = [
