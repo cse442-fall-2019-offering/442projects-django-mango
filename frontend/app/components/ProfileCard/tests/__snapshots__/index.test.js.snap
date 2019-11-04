@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LangMenu Component 1`] = `
+exports[`ProfileCard Component 1`] = `
 <Context.Provider
   value={
     Object {
@@ -32,15 +32,17 @@ exports[`LangMenu Component 1`] = `
     }
   }
 >
-  <Memo(ConnectFunction)
-    onLanguagesChange={[Function]}
-    selectedLanguagegs={
+  <ForwardRef(WithStyles)
+    email="test@buffalo.edu"
+    languages={
       Array [
         "python",
         "javascript",
         "c++",
       ]
     }
+    name="Name"
+    onLanguagesChange={[Function]}
   />
 </Context.Provider>
 `;

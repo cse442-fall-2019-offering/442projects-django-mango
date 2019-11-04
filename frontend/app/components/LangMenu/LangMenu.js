@@ -9,7 +9,7 @@ import MultiSelect from '@khanacademy/react-multi-select';
 
 function createOptions(list) {
   const output = [];
-  list.forEach(function(element) {
+  list.forEach(function options(element) {
     output.push({ label: element, value: element });
   });
   return output;
