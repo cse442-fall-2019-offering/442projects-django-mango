@@ -12,6 +12,7 @@ from .models import Group, Language
 
 from .sort import sort_group
 
+
 class GroupTests(APITestCase):
     def create_group(self):
 
