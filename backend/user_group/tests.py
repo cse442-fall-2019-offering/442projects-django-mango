@@ -22,6 +22,7 @@ class GroupTests(APITestCase):
             "name": "mango",
             "languages": ["Python", "Java", "Go"],
             "description": "<p>Mango group</p>",
+            "contact": "<p>Mango group contact</p>"
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -29,6 +30,7 @@ class GroupTests(APITestCase):
         identity = response.data.get("identity")
         group = Group.objects.get(identity=identity)
         self.assertEqual(group.name, "mango")
+        self.assertEqual(group.contact, "<p>Mango group contact</p>")
         lang1 = Language.objects.get(name="Python")
         lang2 = Language.objects.get(name="Java")
         lang3 = Language.objects.get(name="Go")

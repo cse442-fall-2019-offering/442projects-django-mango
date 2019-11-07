@@ -43,6 +43,7 @@ def group_api(request):
             data={
                 "name": request.data.get("name"),
                 "description": request.data.get("description"),
+                "contact": request.data.get("contact")
             }
         )
         if serializer.is_valid():
@@ -68,6 +69,7 @@ def group_api(request):
                 "members": members,
                 "languages": languages,
                 "description": group.description,
+                "contact": group.contact,
             }
             return Response(content, status=status.HTTP_200_OK)
         else:
@@ -98,6 +100,7 @@ def group_detail(request, group_pk):
             "languages": languages,
             "description": group.description,
             "member": is_member,
+            "contact": group.contact,
         }
         return Response(content, status=status.HTTP_200_OK)
     if request.method == "PUT":
@@ -128,6 +131,7 @@ def group_detail(request, group_pk):
                 "members": members,
                 "languages": languages,
                 "description": group.description,
+                "contact": group.contact,
             }
             return Response(content, status=status.HTTP_200_OK)
         else:
@@ -157,6 +161,7 @@ def join_group(request, group_pk):
         "members": members,
         "languages": languages,
         "description": group.description,
+        "contact": group.contact,
     }
     return Response(content, status=status.HTTP_200_OK)
 
@@ -197,6 +202,7 @@ def auto_join_group(request):
         "members": members,
         "languages": languages,
         "description": group.description,
+        "contact": group.contact,
     }
     return Response(content, status=status.HTTP_200_OK)
 
@@ -228,6 +234,7 @@ def leave_group(request, group_pk):
         "members": members,
         "languages": languages,
         "description": group.description,
+        "contact": group.contact,
     }
     content = {"deleted": False, "data": content}
     return Response(content, status=status.HTTP_200_OK)
