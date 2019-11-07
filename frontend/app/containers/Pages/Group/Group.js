@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import Popup from 'reactjs-popup';
 
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import ChatIcon from '@material-ui/icons/Chat';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
@@ -37,7 +39,8 @@ function containsObject(obj, list) {
 class Group extends Component {
   state = {
     name: '',
-    description: '',
+    description: '<p></p>',
+    contact: '<p></p>',
     languages: [],
     members: [],
     changed: [],
@@ -63,6 +66,7 @@ class Group extends Component {
       return {
         name: props.group.name,
         description: props.group.description,
+        contact: props.group.contact,
         languages: props.group.languages,
         members: props.group.members,
         member: props.group.member,
@@ -96,6 +100,7 @@ class Group extends Component {
       groupId: this.props.match.params.groupId,
       name: this.state.name,
       description: this.state.description,
+      contact: this.state.contact,
       languages: this.state.languages,
     };
     onUpdateGroup(payload);
@@ -121,6 +126,16 @@ class Group extends Component {
     if (!containsObject('description', this.state.changed))
       this.setState(previousState => ({
         changed: [...previousState.changed, 'description'],
+      }));
+  };
+
+  handleContactChange = contact => {
+    this.setState({
+      contact,
+    });
+    if (!containsObject('contact', this.state.changed))
+      this.setState(previousState => ({
+        changed: [...previousState.changed, 'contact'],
       }));
   };
 
@@ -200,6 +215,22 @@ class Group extends Component {
                 <IconButton className={classes.close} onClick={this.editGroup}>
                   <CloseIcon />
                 </IconButton>
+                <Popup
+                  trigger={
+                    <IconButton className={classes.contactEdit}>
+                      <ChatIcon />
+                    </IconButton>
+                  }
+                  modal
+                  closeOnDocumentClick
+                >
+                  <ReactMediumEditor
+                    className={classes.contactPopup}
+                    text={this.state.contact}
+                    onChange={this.handleContactChange}
+                    placeholder="Group Contact"
+                  />
+                </Popup>
               </Grid>
             </Grid>
           </div>
@@ -245,6 +276,21 @@ class Group extends Component {
               <IconButton className={classes.edit} onClick={this.editGroup}>
                 <EditIcon />
               </IconButton>
+              <Popup
+                trigger={
+                  <IconButton className={classes.contact}>
+                    <ChatIcon />
+                  </IconButton>
+                }
+                modal
+                closeOnDocumentClick
+              >
+                <div
+                  className={classes.contactPopup}
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: this.state.contact }}
+                />
+              </Popup>
             </Grid>
           </Grid>
         </div>

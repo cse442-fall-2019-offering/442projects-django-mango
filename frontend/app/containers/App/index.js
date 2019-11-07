@@ -59,6 +59,7 @@ class App extends Component {
     return (
       <div>
         <Switch>
+          <Route exact path="/" component={withRouter(Dashboard)} />
           <Route exact path="/groups" component={withRouter(Dashboard)} />
           <Route exact path="/groups/new" component={GroupCreation} />
           <Route exact path="/groups/:groupId" component={withRouter(Group)} />

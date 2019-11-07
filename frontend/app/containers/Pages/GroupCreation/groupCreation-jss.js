@@ -33,6 +33,23 @@ const styles = theme => ({
     boxShadow: '0px 4px 10px rgba(51, 50, 50, 0.15)',
   },
 
+  contactEdit: {
+    position: 'relative',
+    bottom: 830,
+    left: 790,
+    width: 50,
+    height: 50,
+    zIndex: 5,
+  },
+
+  contactPopup: {
+    width: 780,
+    height: 400,
+    paddingTop: 20,
+    paddingLeft: 40,
+    overflow: 'auto',
+  },
+
   languages: {
     position: 'relative',
     bottom: 180,

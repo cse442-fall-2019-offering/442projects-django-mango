@@ -15,6 +15,7 @@ export const initialState = {
     name: '',
     description: '',
     languages: [],
+    contact: '',
     members: [],
     member: false,
     error: false,

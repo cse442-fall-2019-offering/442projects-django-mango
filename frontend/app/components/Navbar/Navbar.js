@@ -38,10 +38,10 @@ class Navbar extends Component {
           <div className={classes.navbar_buttons}>
             <ul>
               <li>
-                <a href="/groups">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
-                <a href="/groups">Dashboard</a>
+                <a href="/">Dashboard</a>
               </li>
               <li>
                 <a href="/groups">Groups</a>
