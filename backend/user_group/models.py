@@ -23,7 +23,7 @@ class Group(models.Model):
     languages = models.ManyToManyField(Language)
     members = models.ManyToManyField(User)
     description = models.TextField()
-    contact = models.TextField()
+
     class Meta:
         ordering = ("name",)
 
