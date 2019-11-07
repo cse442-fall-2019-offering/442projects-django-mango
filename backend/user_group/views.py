@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .models import Language, Group
 from .serializers import GroupSerializer
 
+from .sort import sort_group
 
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
@@ -31,6 +32,10 @@ def group_api(request):
             for language in group.languages.all():
                 languages.append(language.name)
             groupList.append([group.identity, group.name, languages, members])
+        languages = []
+        for language in request.user.programming_languages:
+            languages.append(language.name)
+        groupList = sort_group(groupList, languages)  # Sort Group
         return Response(groupList, status=status.HTTP_200_OK)
     if request.method == "POST":
         serializer = GroupSerializer(
