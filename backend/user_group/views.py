@@ -34,7 +34,7 @@ def group_api(request):
                 languages.append(language.name)
             groupList.append([group.identity, group.name, languages, members])
         languages = []
-        for language in request.user.programming_languages:
+        for language in request.user.programming_languages.all():
             languages.append(language.name)
         groupList = sort_group(groupList, languages)  # Sort Group
         return Response(groupList, status=status.HTTP_200_OK)
@@ -119,6 +119,9 @@ def group_detail(request, group_pk):
             desc = request.data.get("description")
             if desc:
                 group.description = desc
+            contact = request.data.get("contact")
+            if contact:
+                group.contact = contact
             group.save()
             members = []
             for member in group.members.all():

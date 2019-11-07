@@ -96,7 +96,7 @@ class GroupCreation extends Component {
                 color="primary"
                 type="button"
                 onClick={this.handleCreateGroup}
-                disabled={this.state.created}
+                disabled={this.state.created || this.state.name === ''}
               >
                 Submit
               </Button>

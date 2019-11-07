@@ -43,10 +43,11 @@ const styles = theme => ({
   },
 
   contactPopup: {
-    width: 780,
     height: 400,
     paddingTop: 20,
+    paddingBottom: 20,
     paddingLeft: 40,
+    paddingRight: 40,
     overflow: 'auto',
   },
 
