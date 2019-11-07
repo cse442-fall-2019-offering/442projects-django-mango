@@ -34,6 +34,7 @@ export function* createGroupSaga(action) {
     name: payload.name,
     description: payload.description,
     languages: payload.languages,
+    contact: payload.contact,
   });
   if (groupResponse.status === 200) {
     yield put(push(`${groupResponse.data.identity}`));
@@ -55,6 +56,7 @@ export function* updateGroupSaga(action) {
     name: payload.name,
     description: payload.description,
     languages: payload.languages,
+    contact: payload.contact,
   });
 }
 
