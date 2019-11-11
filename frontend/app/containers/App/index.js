@@ -63,6 +63,11 @@ class App extends Component {
           <Route exact path="/groups" component={withRouter(Dashboard)} />
           <Route exact path="/groups/new" component={GroupCreation} />
           <Route exact path="/groups/:groupId" component={withRouter(Group)} />
+          <Route
+            exact
+            path="auto_join_group"
+            component={withRouter(Dashboard)}
+          />
           <Route exact path="/profile" component={Profile} />
           <Route component={NotFoundPage} />
         </Switch>

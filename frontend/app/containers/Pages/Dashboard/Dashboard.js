@@ -45,6 +45,10 @@ class Dashboard extends Component {
     window.location.href = 'groups/new';
   };
 
+  handleAutoGroup = () => {
+    window.location.href = 'auto_join_group';
+  };
+
   render() {
     if (this.state.loading) {
       return <Loading />;
@@ -63,6 +67,17 @@ class Dashboard extends Component {
                 onClick={this.handleCreateGroup}
               >
                 + Create a group
+              </Button>
+              <div>
+                <br />
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={this.handleAutoGroup}
+              >
+                Auto Group Assign
               </Button>
             </div>
           </Grid>
