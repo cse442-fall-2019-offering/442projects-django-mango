@@ -27,12 +27,7 @@ const styles = theme => ({
   },
 
   navbar_title: {
-    '& a': {
-      padding: '0px 10px 0px 0px',
-      color: '#FFFFFF',
-      textDecoration: 'none',
-      fontSize: '20px',
-    },
+    fontSize: 20,
   },
 
   navbar_buttons: {
@@ -61,19 +56,14 @@ const styles = theme => ({
   },
 
   ProfileButton: {
+    position: 'relative',
+    right: 60,
     display: 'flex',
   },
 
   navbar_email: {
-    '& a': {
-      textDecoration: 'none',
-      padding: '0px 100px 0px 0px',
-      display: 'flex',
-      margin: '0px',
-      color: 'white',
-      listStyle: 'none',
-      fontWeight: 'bold',
-    },
+    position: 'relative',
+    right: 50,
   },
 });
 

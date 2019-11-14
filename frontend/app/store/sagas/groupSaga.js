@@ -52,12 +52,15 @@ export function* getGroupSaga(action) {
 export function* updateGroupSaga(action) {
   const { payload } = action;
   const { groupId } = payload;
-  yield axios.put(`group/${groupId}`, {
+  const updateResponse = yield axios.put(`group/${groupId}`, {
     name: payload.name,
     description: payload.description,
     languages: payload.languages,
     contact: payload.contact,
   });
+  if (updateResponse.status === 200) {
+    yield put(getGroupSuccess(updateResponse.data));
+  }
 }
 
 export function* joinGroupSaga(action) {

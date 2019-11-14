@@ -76,7 +76,7 @@ class Dashboard extends Component {
                       onClick={() => this.handleGroupClick(group[0])}
                       role="presentation"
                     >
-                      <Group className={classes.open} group={group} />
+                      <Group group={group} />
                     </div>
                   ) : (
                     <div
@@ -84,7 +84,7 @@ class Dashboard extends Component {
                       onClick={() => this.handleGroupClick(group[0])}
                       role="presentation"
                     >
-                      <Group className={classes.closed} group={group} />
+                      <Group group={group} />
                     </div>
                   )}
                 </Grid>

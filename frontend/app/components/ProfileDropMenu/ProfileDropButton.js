@@ -34,6 +34,7 @@ function ProfileDropButton(props) {
         aria-controls="DropMenu"
         aria-haspopup="true"
         onClick={handleClick}
+        style={{ fontSize: '18px', color: 'white' }}
       >
         =
       </Button>

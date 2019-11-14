@@ -12,6 +12,7 @@ export const initialState = {
     name: '',
     email: '',
     languages: [],
+    groups: [],
   },
 };
 

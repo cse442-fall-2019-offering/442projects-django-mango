@@ -22,7 +22,7 @@ class GroupTests(APITestCase):
             "name": "mango",
             "languages": ["Python", "Java", "Go"],
             "description": "<p>Mango group</p>",
-            "contact": "<p>Mango group contact</p>"
+            "contact": "<p>Mango group contact</p>",
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)

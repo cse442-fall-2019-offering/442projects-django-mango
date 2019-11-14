@@ -43,7 +43,7 @@ def group_api(request):
             data={
                 "name": request.data.get("name"),
                 "description": request.data.get("description"),
-                "contact": request.data.get("contact")
+                "contact": request.data.get("contact"),
             }
         )
         if serializer.is_valid():

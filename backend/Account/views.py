@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from user_group.models import Language
+from user_group.sort import sort_group
 from .models import User
 
 
@@ -80,10 +81,24 @@ def users(request):
         languages = []
         for language in request.user.programming_languages.all():
             languages.append(language.name)
+        groupList = []
+        for group in request.user.group_set.all():
+            members = []
+            for member in group.members.all():
+                members.append(member.name)
+            languages = []
+            for language in group.languages.all():
+                languages.append(language.name)
+            groupList.append([group.identity, group.name, languages, members])
+        languages = []
+        for language in request.user.programming_languages.all():
+            languages.append(language.name)
+        groupList = sort_group(groupList, languages)  # Sort Group
         content = {
             "email": request.user.email,
             "name": request.user.name,
             "languages": languages,
+            "groups": groupList,
         }
         return Response(content, status=status.HTTP_200_OK)
     if request.method == "PUT":
@@ -95,12 +110,10 @@ def users(request):
         if languages:
             user.programming_languages.clear()
             for language in languages:
-                user.programming_languages.add(
-                    Language.objects.get(name=language))
+                user.programming_languages.add(Language.objects.get(name=language))
         user.save()
         languages = []
         for language in user.programming_languages.all():
             languages.append(language.name)
-        content = {"email": user.email,
-                   "name": user.name, "languages": languages}
+        content = {"email": user.email, "name": user.name, "languages": languages}
         return Response(content, status=status.HTTP_200_OK)
