@@ -72,6 +72,33 @@ const styles = theme => ({
     fontSize: '20px',
   },
 
+  contact: {
+    position: 'relative',
+    bottom: 1320,
+    left: 740,
+    width: 50,
+    height: 50,
+    zIndex: 5,
+  },
+
+  contactEdit: {
+    position: 'relative',
+    bottom: 1350,
+    left: 740,
+    width: 50,
+    height: 50,
+    zIndex: 5,
+  },
+
+  contactPopup: {
+    height: 400,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    overflow: 'auto',
+  },
+
   submitButton: {
     position: 'relative',
     bottom: 1430,

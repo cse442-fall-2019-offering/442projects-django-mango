@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Popup from 'reactjs-popup';
 
 import Button from '@material-ui/core/Button';
+import { TextField } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -10,13 +14,13 @@ import { createGroup } from 'my-actions/groupActions';
 import ReactMediumEditor from 'my-components/Editor/ReactMediumEditor';
 import LangMenu from 'my-components/LangMenu/LangMenu';
 import Navbar from 'my-components/Navbar/Navbar';
-import { TextField } from '@material-ui/core';
 import styles from './groupCreation-jss';
 
 class GroupCreation extends Component {
   state = {
     name: '',
     description: '<p></p>',
+    contact: '<p></p>',
     languages: [],
     created: false,
   };
@@ -33,6 +37,12 @@ class GroupCreation extends Component {
     });
   };
 
+  handleContactChange = contact => {
+    this.setState({
+      contact,
+    });
+  };
+
   handleLanguagesChange = languages => {
     this.setState({
       languages,
@@ -44,6 +54,7 @@ class GroupCreation extends Component {
     const payload = {
       name: this.state.name,
       description: this.state.description,
+      contact: this.state.contact,
       languages: this.state.languages,
     };
     onCreateGroup(payload);
@@ -85,11 +96,27 @@ class GroupCreation extends Component {
                 color="primary"
                 type="button"
                 onClick={this.handleCreateGroup}
-                disabled={this.state.created}
+                disabled={this.state.created || this.state.name === ''}
               >
                 Submit
               </Button>
             </div>
+            <Popup
+              trigger={
+                <IconButton className={classes.contactEdit}>
+                  <ChatIcon />
+                </IconButton>
+              }
+              modal
+              closeOnDocumentClick
+            >
+              <ReactMediumEditor
+                className={classes.contactPopup}
+                text={this.state.contact}
+                onChange={this.handleContactChange}
+                placeholder="Group Contact"
+              />
+            </Popup>
           </Grid>
         </Grid>
       </div>

@@ -95,14 +95,12 @@ def users(request):
         if languages:
             user.programming_languages.clear()
             for language in languages:
-                user.programming_languages.add(Language.objects.get(name=language))
+                user.programming_languages.add(
+                    Language.objects.get(name=language))
         user.save()
         languages = []
         for language in user.programming_languages.all():
             languages.append(language.name)
-        content = {
-            "email": user.email,
-            "name": user.name,
-            "languages": languages,
-        }
+        content = {"email": user.email,
+                   "name": user.name, "languages": languages}
         return Response(content, status=status.HTTP_200_OK)
