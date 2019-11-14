@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { login } from 'my-actions/userActions';
+import { updateSettings } from 'my-actions/groupActions';
 import Button from '@material-ui/core/Button';
-// import Loading from 'my-components/Loading';
+import PropTypes from 'prop-types';
 
 import './style.css';
 
-class Login extends Component {
+class Settings extends Component {
   state = {
-    // isAuthenticating: true,
     group_limit: 50,
     group_size: 5,
   };
@@ -22,9 +21,16 @@ class Login extends Component {
     this.setState({ group_size: event.target.value });
   };
 
-  handleCreateGroup = () => {
+  handleDone = () => {
+    const { onDone } = this.props;
+    const payload = {
+      group_limit: this.state.group_limit,
+      group_size: this.state.group_size,
+    };
+    onDone(payload);
     console.log('limit: ', this.state.group_limit);
     console.log('size: ', this.state.group_size);
+    // window.location.href = '/groups';
   };
 
   render() {
@@ -32,7 +38,7 @@ class Login extends Component {
       <span>
         <div className="background">
           <div className="centerbox">
-            <h1>Django Mango</h1>
+            <h1>Group Settings</h1>
             <h2>Limit on total number of groups</h2>
             <select
               value={this.state.group_limit}
@@ -78,7 +84,7 @@ class Login extends Component {
               variant="contained"
               color="primary"
               type="button"
-              onClick={this.handleCreateGroup}
+              onClick={this.handleDone}
               disabled={this.state.created || this.state.name === ''}
             >
               Done
@@ -90,13 +96,17 @@ class Login extends Component {
   }
 }
 
+Settings.propTypes = {
+  onDone: PropTypes.func.isRequired,
+};
+
 const mapDispatchToProps = dispatch => ({
-  onLogin: payload => dispatch(login(payload)),
+  onDone: payload => dispatch(updateSettings(payload)),
 });
 
-const LoginMapped = connect(
+const SettingsMapped = connect(
   null,
   mapDispatchToProps,
-)(Login);
+)(Settings);
 
-export default LoginMapped;
+export default SettingsMapped;

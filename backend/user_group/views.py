@@ -1,3 +1,4 @@
+import sys
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -17,6 +18,18 @@ def lang_api(request):
     for language in Language.objects.all():
         languages.append(language.name)
     return Response(languages, status=status.HTTP_200_OK)
+
+
+@api_view(["PUT"])
+@permission_classes((IsAuthenticated,))
+def update_settings(request):
+
+    if request.method == "PUT":
+        group_size = request.data.get("group_size")
+        group_limit = request.data.get("group_limit")
+        print("Group_size:", group_size, file=sys.stderr)
+        print("Group_limit:", group_limit, file=sys.stderr)
+        return Response(status=status.HTTP_200_OK)
 
 
 @api_view(["GET", "POST"])
@@ -43,7 +56,7 @@ def group_api(request):
             data={
                 "name": request.data.get("name"),
                 "description": request.data.get("description"),
-                "contact": request.data.get("contact")
+                "contact": request.data.get("contact"),
             }
         )
         if serializer.is_valid():
