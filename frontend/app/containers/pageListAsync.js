@@ -29,3 +29,8 @@ export const Login = loadable(() => import('./Pages/Login/Login'), {
 export const Profile = loadable(() => import('./Pages/ProfilePage/Profile'), {
   fallback: <Loading />,
 });
+
+// Settings
+export const Settings = loadable(() => import('./Pages/Settings/Settings'), {
+  fallback: <Loading />,
+});
