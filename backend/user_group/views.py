@@ -8,6 +8,9 @@ from .models import Language, Group
 from .serializers import GroupSerializer
 
 from .sort import sort_group
+GROUP_SIZE = 5
+GROUP_LIMIT = 50
+GROUP_LIST_SIZE = 0
 
 
 @api_view(["GET"])
@@ -25,10 +28,11 @@ def lang_api(request):
 def update_settings(request):
 
     if request.method == "PUT":
-        group_size = request.data.get("group_size")
-        group_limit = request.data.get("group_limit")
-        print("Group_size:", group_size, file=sys.stderr)
-        print("Group_limit:", group_limit, file=sys.stderr)
+        global GROUP_SIZE, GROUP_LIMIT
+        GROUP_SIZE = request.data.get("group_size")
+        GROUP_LIMIT = request.data.get("group_limit")
+        # print("Group_size:", GROUP_SIZE, file=sys.stderr)
+        # print("Group_limit:", GROUP_LIMIT, file=sys.stderr)
         return Response(status=status.HTTP_200_OK)
 
 
@@ -36,6 +40,7 @@ def update_settings(request):
 @permission_classes((IsAuthenticated,))
 def group_api(request):
 
+    global GROUP_LIST_SIZE, GROUP_LIMIT, GROUP_SIZE
     if request.method == "GET":
         groupList = []
         for group in Group.objects.all():
@@ -50,8 +55,11 @@ def group_api(request):
         for language in request.user.programming_languages.all():
             languages.append(language.name)
         groupList = sort_group(groupList, languages)  # Sort Group
+        GROUP_LIST_SIZE = len(groupList)
         return Response(groupList, status=status.HTTP_200_OK)
     if request.method == "POST":
+        if int(GROUP_LIST_SIZE) >= int(GROUP_LIMIT):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = GroupSerializer(
             data={
                 "name": request.data.get("name"),
@@ -162,7 +170,8 @@ def join_group(request, group_pk):
         group = Group.objects.get(identity=group_pk)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    if group.members.count() == 5:
+    global GROUP_SIZE
+    if group.members.count() == GROUP_SIZE:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     group.members.add(request.user)
     group.save()
@@ -203,7 +212,8 @@ def auto_join_group(request):
         group = Group.objects.get(identity=groupList[0][0])
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    if group.members.count() == 5:
+    global GROUP_SIZE
+    if group.members.count() == GROUP_SIZE:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     group.members.add(request.user)
     group.save()
