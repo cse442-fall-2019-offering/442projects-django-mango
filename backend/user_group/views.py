@@ -113,14 +113,11 @@ def group_detail(request, group_pk):
                         group.languages.add(Language.objects.get(name=lang))
                     except:
                         pass
-            name = request.data.get("name")
-            if name:
-                group.name = name
-            desc = request.data.get("description")
-            if desc:
+            if "description" in request.data:
+                desc = request.data.get("description")
                 group.description = desc
-            contact = request.data.get("contact")
-            if contact:
+            if "contact" in request.data:
+                contact = request.data.get("contact")
                 group.contact = contact
             group.save()
             members = []
@@ -201,6 +198,7 @@ def auto_join_group(request):
     for language in group.languages.all():
         languages.append(language.name)
     content = {
+        "identity": group.identity,
         "name": group.name,
         "members": members,
         "languages": languages,
