@@ -82,7 +82,7 @@ class GroupCreation extends Component {
               className={classes.description}
               text={this.state.description}
               onChange={this.handleDescriptionChange}
-              placeholder="Group Description"
+              placeholder="Group Description - Try Highlighting Your Text!"
             />
             <div className={classes.languages}>
               <LangMenu
@@ -114,7 +114,7 @@ class GroupCreation extends Component {
                 className={classes.contactPopup}
                 text={this.state.contact}
                 onChange={this.handleContactChange}
-                placeholder="Group Contact"
+                placeholder="Group Contact - Try Highlighting Your Text!"
               />
             </Popup>
           </Grid>
