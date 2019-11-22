@@ -82,6 +82,18 @@ class Group extends Component {
     onGetGroup(payload);
   }
 
+  componentDidUpdate = () => {
+    if (this.state.changed.length > 0) {
+      window.onbeforeunload = () => true;
+    } else {
+      window.onbeforeunload = undefined;
+    }
+  };
+
+  componentWillUnmount() {
+    window.onbeforeunload = undefined;
+  }
+
   handleJoinGroup = () => {
     const { onJoinGroup } = this.props;
     const payload = { groupId: this.props.match.params.groupId };
@@ -92,6 +104,9 @@ class Group extends Component {
     const { onLeaveGroup } = this.props;
     const payload = { groupId: this.props.match.params.groupId };
     onLeaveGroup(payload);
+    this.setState({
+      loading: true,
+    });
   };
 
   handleUpdateGroup = () => {
@@ -185,7 +200,7 @@ class Group extends Component {
                   className={classes.description}
                   text={this.state.description}
                   onChange={this.handleDescriptionChange}
-                  placeholder="Group Description"
+                  placeholder="Group Description - Try Highlighting Your Text!"
                 />
                 <div className={classes.languagesMenu}>
                   <LangMenu
@@ -228,7 +243,7 @@ class Group extends Component {
                     className={classes.contactPopup}
                     text={this.state.contact}
                     onChange={this.handleContactChange}
-                    placeholder="Group Contact"
+                    placeholder="Group Contact - Try Highlighting Your Text!"
                   />
                 </Popup>
               </Grid>
