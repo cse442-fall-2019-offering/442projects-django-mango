@@ -11,7 +11,7 @@ const styles = theme => ({
   button: {
     position: 'relative',
     top: '170px',
-    left: '50px',
+    left: 20,
     width: 170,
     height: 40,
     paddingTop: '50px',
@@ -111,7 +111,7 @@ const styles = theme => ({
   close: {
     position: 'relative',
     bottom: 1385,
-    right: 50,
+    right: 80,
     width: 50,
     height: 50,
     zIndex: 5,
@@ -124,6 +124,12 @@ const styles = theme => ({
     width: 50,
     height: 50,
     zIndex: 5,
+  },
+
+  publicButton: {
+    position: 'relative',
+    bottom: 1407,
+    left: 115,
   },
 });
 

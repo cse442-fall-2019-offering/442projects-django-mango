@@ -24,6 +24,7 @@ class Group(models.Model):
     members = models.ManyToManyField(User)
     description = models.TextField()
     contact = models.TextField()
+    public = models.BooleanField(default=False)
 
     class Meta:
         ordering = ("name",)

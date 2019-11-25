@@ -59,6 +59,12 @@ const styles = theme => ({
     fontSize: '15px',
   },
 
+  publicButton: {
+    position: 'relative',
+    bottom: 900,
+    left: 60,
+  },
+
   submitButton: {
     position: 'relative',
     bottom: 800,

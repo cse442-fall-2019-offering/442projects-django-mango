@@ -11,6 +11,7 @@ export const UPDATE_USER = 'UPDATE_USER';
 // Group
 export const GET_GROUPS = 'GET_GROUPS';
 export const GET_GROUPS_SUCCESS = 'GET_GROUPS_SUCCESS';
+export const GET_GROUP_FAILURE = 'GET_GROUP_FAILURE';
 export const CREATE_GROUP = 'CREATE_GROUP';
 export const GET_GROUP = 'GET_GROUP';
 export const GET_GROUP_SUCCESS = 'GET_GROUP_SUCCESS';

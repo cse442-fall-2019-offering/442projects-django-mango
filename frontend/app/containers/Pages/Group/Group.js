@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import ReactTooltip from 'react-tooltip';
 import Popup from 'reactjs-popup';
 
 import Button from '@material-ui/core/Button';
@@ -45,6 +46,7 @@ class Group extends Component {
     members: [],
     changed: [],
     member: null,
+    public: false,
     edit: false,
     loading: true,
     error: false,
@@ -62,7 +64,10 @@ class Group extends Component {
         error: true,
       };
     }
-    if (prevState.members !== props.group.members) {
+    if (
+      (prevState.error && props.group.error === undefined) ||
+      prevState.name !== props.group.name
+    ) {
       return {
         name: props.group.name,
         description: props.group.description,
@@ -70,7 +75,9 @@ class Group extends Component {
         languages: props.group.languages,
         members: props.group.members,
         member: props.group.member,
+        public: props.group.public,
         loading: false,
+        error: false,
       };
     }
     return null;
@@ -117,6 +124,7 @@ class Group extends Component {
       description: this.state.description,
       contact: this.state.contact,
       languages: this.state.languages,
+      public: this.state.public,
     };
     onUpdateGroup(payload);
     this.setState({
@@ -164,6 +172,16 @@ class Group extends Component {
       }));
   };
 
+  handlePublicChange = () => {
+    this.setState(prevState => ({
+      public: !prevState.public,
+    }));
+    if (!containsObject('public', this.state.changed))
+      this.setState(previousState => ({
+        changed: [...previousState.changed, 'public'],
+      }));
+  };
+
   editGroup = () => {
     this.setState(previousState => ({
       edit: !previousState.edit,
@@ -188,7 +206,7 @@ class Group extends Component {
                 <div className={classes.button}>
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     type="button"
                     onClick={this.handleLeaveGroup}
                   >
@@ -246,6 +264,39 @@ class Group extends Component {
                     placeholder="Group Contact - Try Highlighting Your Text!"
                   />
                 </Popup>
+                {this.state.public ? (
+                  <div className={classes.publicButton}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="button"
+                      onClick={this.handlePublicChange}
+                      data-tip
+                      data-for="publicButton"
+                    >
+                      Public
+                    </Button>
+                    <ReactTooltip id="publicButton">
+                      <span>Change to Private</span>
+                    </ReactTooltip>
+                  </div>
+                ) : (
+                  <div className={classes.publicButton}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="button"
+                      onClick={this.handlePublicChange}
+                      data-tip
+                      data-for="privateButton"
+                    >
+                      Private
+                    </Button>
+                    <ReactTooltip id="privateButton">
+                      <span>Change to Public</span>
+                    </ReactTooltip>
+                  </div>
+                )}
               </Grid>
             </Grid>
           </div>
