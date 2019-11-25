@@ -65,7 +65,7 @@ class Group extends Component {
       };
     }
     if (
-      (prevState.error && props.group.error == undefined) ||
+      (prevState.error && props.group.error === undefined) ||
       prevState.name !== props.group.name
     ) {
       return {
