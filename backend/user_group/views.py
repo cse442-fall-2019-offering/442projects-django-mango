@@ -25,14 +25,15 @@ def group_api(request):
 
     if request.method == "GET":
         groupList = []
-        for group in Group.objects.all():
-            members = []
-            for member in group.members.all():
-                members.append(member.name)
-            languages = []
-            for language in group.languages.all():
-                languages.append(language.name)
-            groupList.append([group.identity, group.name, languages, members])
+        for group in Group.objects.filter(public=True):
+            if request.user not in group.members.all():
+                members = []
+                for member in group.members.all():
+                    members.append(member.name)
+                languages = []
+                for language in group.languages.all():
+                    languages.append(language.name)
+                groupList.append([group.identity, group.name, languages, members])
         languages = []
         for language in request.user.programming_languages.all():
             languages.append(language.name)
@@ -44,6 +45,7 @@ def group_api(request):
                 "name": request.data.get("name"),
                 "description": request.data.get("description"),
                 "contact": request.data.get("contact"),
+                "public": request.data.get("public"),
             }
         )
         if serializer.is_valid():
@@ -70,6 +72,8 @@ def group_api(request):
                 "languages": languages,
                 "description": group.description,
                 "contact": group.contact,
+                "public": group.public,
+                "member": True,
             }
             return Response(content, status=status.HTTP_200_OK)
         else:
@@ -87,13 +91,16 @@ def group_detail(request, group_pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == "GET":
         group_members = group.members.all()
+        is_member = request.user in group_members
+        if not group.public:
+            if not is_member:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         members = []
         for member in group_members:
             members.append(member.name)
         languages = []
         for language in group.languages.all():
             languages.append(language.name)
-        is_member = request.user in group_members
         content = {
             "name": group.name,
             "members": members,
@@ -101,6 +108,7 @@ def group_detail(request, group_pk):
             "description": group.description,
             "member": is_member,
             "contact": group.contact,
+            "public": group.public,
         }
         return Response(content, status=status.HTTP_200_OK)
     if request.method == "PUT":
@@ -119,6 +127,9 @@ def group_detail(request, group_pk):
             if "contact" in request.data:
                 contact = request.data.get("contact")
                 group.contact = contact
+            if "public" in request.data:
+                public = request.data.get("public")
+                group.public = public
             group.save()
             members = []
             for member in group.members.all():
@@ -132,6 +143,8 @@ def group_detail(request, group_pk):
                 "languages": languages,
                 "description": group.description,
                 "contact": group.contact,
+                "public": group.public,
+                "member": True,
             }
             return Response(content, status=status.HTTP_200_OK)
         else:
@@ -162,6 +175,8 @@ def join_group(request, group_pk):
         "languages": languages,
         "description": group.description,
         "contact": group.contact,
+        "public": group.public,
+        "member": True,
     }
     return Response(content, status=status.HTTP_200_OK)
 
@@ -171,14 +186,15 @@ def join_group(request, group_pk):
 def auto_join_group(request):
 
     groupList = []
-    for group in Group.objects.all():
-        members = []
-        for member in group.members.all():
-            members.append(member.name)
-        languages = []
-        for language in group.languages.all():
-            languages.append(language.name)
-        groupList.append([group.identity, group.name, languages, members])
+    for group in Group.objects.filter(public=True):
+        if request.user not in group.members.all():
+            members = []
+            for member in group.members.all():
+                members.append(member.name)
+            languages = []
+            for language in group.languages.all():
+                languages.append(language.name)
+            groupList.append([group.identity, group.name, languages, members])
     languages = []
     for language in request.user.programming_languages:
         languages.append(language.name)
@@ -204,6 +220,8 @@ def auto_join_group(request):
         "languages": languages,
         "description": group.description,
         "contact": group.contact,
+        "public": group.public,
+        "member": True,
     }
     return Response(content, status=status.HTTP_200_OK)
 
@@ -236,6 +254,8 @@ def leave_group(request, group_pk):
         "languages": languages,
         "description": group.description,
         "contact": group.contact,
+        "public": group.public,
+        "member": False,
     }
     content = {"deleted": False, "data": content}
     return Response(content, status=status.HTTP_200_OK)

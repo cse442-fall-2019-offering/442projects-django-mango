@@ -17,6 +17,7 @@ import {
 import {
   getGroupsSuccess,
   getGroupSuccess,
+  getGroupFailure,
   joinGroupSuccess,
   leaveGroupSuccess,
 } from '../actions/groupActions';
@@ -35,6 +36,7 @@ export function* createGroupSaga(action) {
     description: payload.description,
     languages: payload.languages,
     contact: payload.contact,
+    public: payload.public,
   });
   if (groupResponse.status === 200) {
     yield put(push(`${groupResponse.data.identity}`));
@@ -43,9 +45,11 @@ export function* createGroupSaga(action) {
 
 export function* getGroupSaga(action) {
   const { groupId } = action.payload;
-  const groupResponse = yield axios.get(`group/${groupId}`);
-  if (groupResponse.status === 200) {
+  try {
+    const groupResponse = yield axios.get(`group/${groupId}`);
     yield put(getGroupSuccess(groupResponse.data));
+  } catch {
+    yield put(getGroupFailure());
   }
 }
 
@@ -57,6 +61,7 @@ export function* updateGroupSaga(action) {
     description: payload.description,
     languages: payload.languages,
     contact: payload.contact,
+    public: payload.public,
   });
   if (updateResponse.status === 200) {
     yield put(getGroupSuccess(updateResponse.data));

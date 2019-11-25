@@ -23,6 +23,7 @@ class GroupTests(APITestCase):
             "languages": ["Python", "Java", "Go"],
             "description": "<p>Mango group</p>",
             "contact": "<p>Mango group contact</p>",
+            "public": True,
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -31,6 +32,7 @@ class GroupTests(APITestCase):
         group = Group.objects.get(identity=identity)
         self.assertEqual(group.name, "mango")
         self.assertEqual(group.contact, "<p>Mango group contact</p>")
+        self.assertTrue(group.public)
         lang1 = Language.objects.get(name="Python")
         lang2 = Language.objects.get(name="Java")
         lang3 = Language.objects.get(name="Go")
@@ -46,11 +48,10 @@ class GroupTests(APITestCase):
     def update_group(self, group_pk):
 
         url = reverse("group/<group_pk>", kwargs={"group_pk": group_pk})
-        data = {"name": "django", "languages": ["Python", "Java"]}
+        data = {"languages": ["Python", "Java"]}
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         group = Group.objects.get(identity=group_pk)
-        self.assertEqual(group.name, "django")
         lang1 = Language.objects.get(name="Python")
         lang2 = Language.objects.get(name="Java")
         lang3 = Language.objects.get(name="Go")
