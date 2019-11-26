@@ -11,6 +11,7 @@ import {
   UPDATE_GROUP,
   JOIN_GROUP,
   LEAVE_GROUP,
+  UPDATE_SETTINGS,
 } from '../actions/actionConstants';
 
 // import actions
@@ -88,6 +89,10 @@ export function* leaveGroupSaga(action) {
   }
 }
 
+export function* updateSettingsSaga(action) {
+  yield axios.put('settings', action.payload);
+}
+
 export default function* watchGroupSaga() {
   yield takeLatest(GET_GROUPS, getGroupsSaga);
   yield takeLatest(CREATE_GROUP, createGroupSaga);
@@ -95,4 +100,5 @@ export default function* watchGroupSaga() {
   yield takeLatest(UPDATE_GROUP, updateGroupSaga);
   yield takeLatest(JOIN_GROUP, joinGroupSaga);
   yield takeLatest(LEAVE_GROUP, leaveGroupSaga);
+  yield takeLatest(UPDATE_SETTINGS, updateSettingsSaga);
 }
