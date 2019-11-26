@@ -63,7 +63,10 @@ export function* getUserSaga() {
 }
 
 export function* updateUserSaga(action) {
-  yield axios.put('users', action.payload);
+  const updateResponse = yield axios.put('users', action.payload);
+  if (updateResponse.status === 200) {
+    yield put(getUserSuccess(updateResponse.data));
+  }
 }
 
 export default function* watchUserSaga() {

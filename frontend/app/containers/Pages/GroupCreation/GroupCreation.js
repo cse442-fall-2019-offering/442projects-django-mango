@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Popup from 'reactjs-popup';
+import ReactTooltip from 'react-tooltip';
 
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
@@ -22,6 +23,7 @@ class GroupCreation extends Component {
     description: '<p></p>',
     contact: '<p></p>',
     languages: [],
+    public: false,
     created: false,
   };
 
@@ -49,6 +51,12 @@ class GroupCreation extends Component {
     });
   };
 
+  handlePublicChange = () => {
+    this.setState(prevState => ({
+      public: !prevState.public,
+    }));
+  };
+
   handleCreateGroup = () => {
     const { onCreateGroup } = this.props;
     const payload = {
@@ -56,6 +64,7 @@ class GroupCreation extends Component {
       description: this.state.description,
       contact: this.state.contact,
       languages: this.state.languages,
+      public: this.state.public,
     };
     onCreateGroup(payload);
     this.setState({
@@ -82,7 +91,7 @@ class GroupCreation extends Component {
               className={classes.description}
               text={this.state.description}
               onChange={this.handleDescriptionChange}
-              placeholder="Group Description"
+              placeholder="Group Description - Try Highlighting Your Text!"
             />
             <div className={classes.languages}>
               <LangMenu
@@ -114,9 +123,42 @@ class GroupCreation extends Component {
                 className={classes.contactPopup}
                 text={this.state.contact}
                 onChange={this.handleContactChange}
-                placeholder="Group Contact"
+                placeholder="Group Contact - Try Highlighting Your Text!"
               />
             </Popup>
+            {this.state.public ? (
+              <div className={classes.publicButton}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  onClick={this.handlePublicChange}
+                  data-tip
+                  data-for="publicButton"
+                >
+                  Public
+                </Button>
+                <ReactTooltip id="publicButton">
+                  <span>Change to Private</span>
+                </ReactTooltip>
+              </div>
+            ) : (
+              <div className={classes.publicButton}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  onClick={this.handlePublicChange}
+                  data-tip
+                  data-for="privateButton"
+                >
+                  Private
+                </Button>
+                <ReactTooltip id="privateButton">
+                  <span>Change to Public</span>
+                </ReactTooltip>
+              </div>
+            )}
           </Grid>
         </Grid>
       </div>
