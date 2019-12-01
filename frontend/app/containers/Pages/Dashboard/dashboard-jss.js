@@ -17,6 +17,10 @@ const styles = theme => ({
     paddingBottom: '20px',
   },
 
+  empty: {
+    paddingTop: 5,
+  },
+
   groupList: {
     position: 'relative',
     top: '100px',

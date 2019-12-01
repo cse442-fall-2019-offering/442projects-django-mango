@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProfileCard Component 1`] = `
+exports[`Login Page 1`] = `
 <Context.Provider
   value={
     Object {
@@ -32,17 +32,6 @@ exports[`ProfileCard Component 1`] = `
     }
   }
 >
-  <ForwardRef(WithStyles)
-    email="test@buffalo.edu"
-    languages={
-      Array [
-        "python",
-        "javascript",
-        "c++",
-      ]
-    }
-    name="Name"
-    onLanguagesChange={[Function]}
-  />
+  <Memo(ConnectFunction) />
 </Context.Provider>
 `;

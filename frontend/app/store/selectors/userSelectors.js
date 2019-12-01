@@ -27,10 +27,17 @@ const makeSelectLanguages = () =>
     userState => userState.user.languages,
   );
 
+const makeSelectUserGroups = () =>
+  createSelector(
+    selectUser,
+    userState => userState.user.groups,
+  );
+
 export {
   selectUser,
   makeSelectAuth,
   makeSelectEmail,
   makeSelectName,
   makeSelectLanguages,
+  makeSelectUserGroups,
 };

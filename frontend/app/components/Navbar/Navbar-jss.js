@@ -27,20 +27,20 @@ const styles = theme => ({
   },
 
   navbar_title: {
-    '& a': {
-      padding: '0px 10px 0px 0px',
-      color: '#FFFFFF',
-      textDecoration: 'none',
-      fontSize: '20px',
-    },
+    fontSize: 35,
+    fontFamily: 'Lucida Console, Monaco, monospace',
+    textShadow: '2px 2px 4px #000000;',
+    color: 'white',
+    fontStyle: 'italic',
   },
 
   navbar_buttons: {
     '& a': {
       color: 'white',
-      textDecoration: 'none',
+      textDecoration: 'underline',
       display: 'inline-block',
       fontSize: '1.5vw',
+      textShadow: '2px 2px 4px #000000;',
     },
     '& a:hover': {
       color: '#EB2121',
@@ -61,19 +61,20 @@ const styles = theme => ({
   },
 
   ProfileButton: {
+    position: 'relative',
+    right: 60,
     display: 'flex',
+    fontWeight: 'bold',
+    textShadow: '2px 2px 4px #000000;',
   },
 
   navbar_email: {
-    '& a': {
-      textDecoration: 'none',
-      padding: '0px 100px 0px 0px',
-      display: 'flex',
-      margin: '0px',
-      color: 'white',
-      listStyle: 'none',
-      fontWeight: 'bold',
-    },
+    position: 'relative',
+    right: 50,
+    fontFamily: 'Lucida Console, Monaco, monospace',
+    fontSize: 15,
+    color: 'white',
+    textShadow: '2px 2px 4px #000000;',
   },
 });
 

@@ -1,2 +1,2 @@
-# Welcome to CSE442
-This is to create a file so that your repo has a place to start.
+# Django Mango
+An app that helps students find groups for their programming projects.

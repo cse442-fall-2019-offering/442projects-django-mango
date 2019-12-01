@@ -5,8 +5,8 @@ import { createStructuredSelector } from 'reselect';
 
 import { getUser } from 'my-actions/userActions';
 import { makeSelectEmail } from 'my-selectors/userSelectors';
-
 import { withStyles } from '@material-ui/core/styles';
+
 import styles from './Navbar-jss';
 import ProfileDropButton from '../ProfileDropMenu/ProfileDropButton';
 
@@ -32,19 +32,11 @@ class Navbar extends Component {
     return (
       <header className={classes.navbar}>
         <nav className={classes.navbar_nav}>
-          <div className={classes.navbar_title}>
-            <a href="/groups">Django Mango</a>
-          </div>
+          <div className={classes.navbar_title}>Django Mango</div>
           <div className={classes.navbar_buttons}>
             <ul>
               <li>
-                <a href="/groups">Home</a>
-              </li>
-              <li>
-                <a href="/groups">Dashboard</a>
-              </li>
-              <li>
-                <a href="/groups">Groups</a>
+                <a href="/">Home</a>
               </li>
             </ul>
           </div>

@@ -9,6 +9,8 @@ import {
   JOIN_GROUP_SUCCESS,
   LEAVE_GROUP,
   LEAVE_GROUP_SUCCESS,
+  GET_GROUP_FAILURE,
+  UPDATE_SETTINGS,
 } from './actionConstants';
 
 export const getGroups = () => ({
@@ -35,6 +37,10 @@ export const getGroupSuccess = payload => ({
   payload,
 });
 
+export const getGroupFailure = () => ({
+  type: GET_GROUP_FAILURE,
+});
+
 export const updateGroup = payload => ({
   type: UPDATE_GROUP,
   payload,
@@ -57,5 +63,10 @@ export const leaveGroup = payload => ({
 
 export const leaveGroupSuccess = payload => ({
   type: LEAVE_GROUP_SUCCESS,
+  payload,
+});
+
+export const updateSettings = payload => ({
+  type: UPDATE_SETTINGS,
   payload,
 });

@@ -7,19 +7,84 @@ const styles = theme => ({
     },
   },
 
-  card: {
+  name: {
     position: 'relative',
-    top: '200px',
-    left: '300px',
+    top: 150,
+    width: 500,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 
-  button: {
+  languages: {
     position: 'relative',
-    top: '-300px',
-    left: '150px',
+    top: 200,
+    left: 50,
+    width: 400,
+    height: 500,
+    fontSize: '20px',
+  },
+
+  groups: {
+    position: 'relative',
+    bottom: 450,
+    right: 250,
     width: 170,
     height: 40,
     paddingTop: '50px',
+    fontWeight: 'bold',
+  },
+
+  groupList: {
+    height: 566,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 85,
+    paddingRight: 40,
+    overflow: 'auto',
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+
+  openGroup: {
+    width: 168,
+    height: 203,
+    margin: '20px 120px 40px 0',
+    cursor: 'pointer',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+    borderRadius: 9,
+    overflow: 'auto',
+    transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
+    '&:hover': {
+      transform: 'scale(1.1,1.1)',
+    },
+    backgroundColor: '#00aa00',
+  },
+
+  closedGroup: {
+    width: 168,
+    height: 203,
+    margin: '20px 120px 40px 0',
+    cursor: 'pointer',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+    borderRadius: 9,
+    overflow: 'auto',
+    transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
+    '&:hover': {
+      transform: 'scale(1.1,1.1)',
+    },
+    backgroundColor: '#e31305',
+  },
+
+  update: {
+    position: 'relative',
+    top: 130,
+    left: 900,
+    width: 170,
+    height: 40,
+    paddingTop: '50px',
+    textDecoration: 'underline',
+    fontWeight: 'bold',
   },
 });
 

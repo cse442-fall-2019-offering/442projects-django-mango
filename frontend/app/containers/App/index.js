@@ -27,6 +27,7 @@ import {
   Login,
   Profile,
   GroupCreation,
+  Settings,
 } from '../pageListAsync';
 
 class App extends Component {
@@ -59,10 +60,17 @@ class App extends Component {
     return (
       <div>
         <Switch>
+          <Route exact path="/" component={withRouter(Dashboard)} />
           <Route exact path="/groups" component={withRouter(Dashboard)} />
           <Route exact path="/groups/new" component={GroupCreation} />
           <Route exact path="/groups/:groupId" component={withRouter(Group)} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/settings" component={Settings} />
+          <Route
+            exact
+            path="auto_join_group"
+            component={withRouter(Dashboard)}
+          />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />

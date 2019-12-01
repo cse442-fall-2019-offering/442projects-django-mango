@@ -11,7 +11,7 @@ const styles = theme => ({
   button: {
     position: 'relative',
     top: '170px',
-    left: '50px',
+    left: 20,
     width: 170,
     height: 40,
     paddingTop: '50px',
@@ -40,6 +40,7 @@ const styles = theme => ({
     padding: 50,
     overflow: 'auto',
     boxShadow: '0px 4px 10px rgba(51, 50, 50, 0.15)',
+    borderColor: 'black',
   },
 
   languageTitle: {
@@ -72,6 +73,33 @@ const styles = theme => ({
     fontSize: '20px',
   },
 
+  contact: {
+    position: 'relative',
+    bottom: 1320,
+    left: 740,
+    width: 50,
+    height: 50,
+    zIndex: 5,
+  },
+
+  contactEdit: {
+    position: 'relative',
+    bottom: 1350,
+    left: 740,
+    width: 50,
+    height: 50,
+    zIndex: 5,
+  },
+
+  contactPopup: {
+    height: 400,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    overflow: 'auto',
+  },
+
   submitButton: {
     position: 'relative',
     bottom: 1430,
@@ -84,7 +112,7 @@ const styles = theme => ({
   close: {
     position: 'relative',
     bottom: 1385,
-    right: 50,
+    right: 80,
     width: 50,
     height: 50,
     zIndex: 5,
@@ -97,6 +125,12 @@ const styles = theme => ({
     width: 50,
     height: 50,
     zIndex: 5,
+  },
+
+  publicButton: {
+    position: 'relative',
+    bottom: 1407,
+    left: 115,
   },
 });
 

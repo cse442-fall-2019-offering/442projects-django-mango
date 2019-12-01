@@ -22,10 +22,12 @@ class GroupSerializer(serializers.ModelSerializer):
                 name=validated_data.get("name"),
                 identity=id,
                 description=validated_data.get("description"),
+                contact=validated_data.get("contact"),
+                public=validated_data.get("public"),
             )
             group.save()
             return group
 
     class Meta:
         model = Group
-        fields = ("identity", "name", "description")
+        fields = ("identity", "name", "description", "contact", "public")

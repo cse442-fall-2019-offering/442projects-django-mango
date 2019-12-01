@@ -53,7 +53,7 @@ class LangMenu extends Component {
         selected={selectedLanguages}
         onSelectedChanged={selected => onLanguagesChange(selected)}
         overrideStrings={{
-          selectSomeItems: 'Programming Languages',
+          selectSomeItems: 'Pick Programming Languages',
           allItemsAreSelected: 'All Languages are Selected',
           selectAll: 'Select All',
           search: 'Search',

@@ -20,8 +20,8 @@ class Dashboard extends Component {
     loading: false,
   };
 
-  static getDerivedStateFromProps(props, prevState) {
-    if (prevState.groups === null) {
+  static getDerivedStateFromProps(props) {
+    if (props.groups === null) {
       return {
         loading: true,
       };
@@ -45,6 +45,10 @@ class Dashboard extends Component {
     window.location.href = 'groups/new';
   };
 
+  handleAutoGroup = () => {
+    window.location.href = 'auto_join_group';
+  };
+
   render() {
     if (this.state.loading) {
       return <Loading />;
@@ -64,6 +68,15 @@ class Dashboard extends Component {
               >
                 + Create a group
               </Button>
+              <div className={classes.empty}> </div>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={this.handleAutoGroup}
+              >
+                Auto Group Assign
+              </Button>
             </div>
           </Grid>
           <Grid item md={9} sm={12} xs={12}>
@@ -76,7 +89,7 @@ class Dashboard extends Component {
                       onClick={() => this.handleGroupClick(group[0])}
                       role="presentation"
                     >
-                      <Group className={classes.open} group={group} />
+                      <Group group={group} />
                     </div>
                   ) : (
                     <div
@@ -84,7 +97,7 @@ class Dashboard extends Component {
                       onClick={() => this.handleGroupClick(group[0])}
                       role="presentation"
                     >
-                      <Group className={classes.closed} group={group} />
+                      <Group group={group} />
                     </div>
                   )}
                 </Grid>

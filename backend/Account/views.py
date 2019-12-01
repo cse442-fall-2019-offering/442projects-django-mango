@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from user_group.models import Language
+from user_group.sort import sort_group
 from .models import User
 
 
@@ -80,10 +81,24 @@ def users(request):
         languages = []
         for language in request.user.programming_languages.all():
             languages.append(language.name)
+        groupList = []
+        for group in request.user.group_set.all():
+            members = []
+            for member in group.members.all():
+                members.append(member.name)
+            languages = []
+            for language in group.languages.all():
+                languages.append(language.name)
+            groupList.append([group.identity, group.name, languages, members])
+        languages = []
+        for language in request.user.programming_languages.all():
+            languages.append(language.name)
+        groupList = sort_group(groupList, languages)  # Sort Group
         content = {
             "email": request.user.email,
             "name": request.user.name,
             "languages": languages,
+            "groups": groupList,
         }
         return Response(content, status=status.HTTP_200_OK)
     if request.method == "PUT":
@@ -91,8 +106,8 @@ def users(request):
         name = request.data.get("name")
         if name:
             user.name = name
-        languages = request.data.get("languages")
-        if languages:
+        if "languages" in request.data:
+            languages = request.data.get("languages")
             user.programming_languages.clear()
             for language in languages:
                 user.programming_languages.add(Language.objects.get(name=language))
@@ -100,9 +115,20 @@ def users(request):
         languages = []
         for language in user.programming_languages.all():
             languages.append(language.name)
+        groupList = []
+        for group in request.user.group_set.all():
+            members = []
+            for member in group.members.all():
+                members.append(member.name)
+            group_languages = []
+            for language in group.languages.all():
+                group_languages.append(language.name)
+            groupList.append([group.identity, group.name, group_languages, members])
+        groupList = sort_group(groupList, languages)  # Sort Group
         content = {
             "email": user.email,
             "name": user.name,
             "languages": languages,
+            "groups": groupList,
         }
         return Response(content, status=status.HTTP_200_OK)
