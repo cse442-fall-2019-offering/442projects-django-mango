@@ -8,6 +8,7 @@ from .models import Language, Group
 from .serializers import GroupSerializer
 
 from .sort import sort_group
+
 GROUP_SIZE = 5
 GROUP_LIMIT = 50
 GROUP_LIST_SIZE = 0
@@ -23,16 +24,19 @@ def lang_api(request):
     return Response(languages, status=status.HTTP_200_OK)
 
 
-@api_view(["PUT"])
+@api_view(["GET", "PUT"])
 @permission_classes((IsAuthenticated,))
-def update_settings(request):
+def settings(request):
 
+    global GROUP_SIZE, GROUP_LIMIT
+    if request.method == "GET":
+        if request.user.email != "Dsager@buffalo.edu":  # Add admins' emails here
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        content = {"group_size": GROUP_SIZE, "group_limit": GROUP_LIMIT}
+        return Response(content, status=status.HTTP_200_OK)
     if request.method == "PUT":
-        global GROUP_SIZE, GROUP_LIMIT
         GROUP_SIZE = request.data.get("group_size")
         GROUP_LIMIT = request.data.get("group_limit")
-        # print("Group_size:", GROUP_SIZE, file=sys.stderr)
-        # print("Group_limit:", GROUP_LIMIT, file=sys.stderr)
         return Response(status=status.HTTP_200_OK)
 
 
@@ -44,19 +48,22 @@ def group_api(request):
     if request.method == "GET":
         groupList = []
         for group in Group.objects.filter(public=True):
-            if request.user not in group.members.all():
-                members = []
-                for member in group.members.all():
-                    members.append(member.name)
-                languages = []
-                for language in group.languages.all():
-                    languages.append(language.name)
-                groupList.append([group.identity, group.name, languages, members])
+            members = []
+            for member in group.members.all():
+                members.append(member.name)
+            languages = []
+            for language in group.languages.all():
+                languages.append(language.name)
+            groupList.append([group.identity, group.name, languages, members])
         languages = []
         for language in request.user.programming_languages.all():
             languages.append(language.name)
         groupList = sort_group(groupList, languages)  # Sort Group
-        GROUP_LIST_SIZE = len(groupList)
+        for i in range(0, len(groupList)):
+            if len(groupList[i][3]) >= int(GROUP_SIZE):
+                groupList[i] = groupList[i] + ["full"]
+            else:
+                groupList[i] = groupList[i] + ["free"]
         return Response(groupList, status=status.HTTP_200_OK)
     if request.method == "POST":
         if int(GROUP_LIST_SIZE) >= int(GROUP_LIMIT):
@@ -96,6 +103,7 @@ def group_api(request):
                 "public": group.public,
                 "member": True,
             }
+            GROUP_LIST_SIZE += 1
             return Response(content, status=status.HTTP_200_OK)
         else:
             data = {"error": serializer.errors}
@@ -262,6 +270,7 @@ def leave_group(request, group_pk):
     group.members.remove(request.user)
     if group.members.count() == 0:
         group.delete()
+        GROUP_LIST_SIZE -= 1
         content = {"deleted": True}
         return Response(content, status=status.HTTP_200_OK)
     group.save()

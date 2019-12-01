@@ -11,6 +11,7 @@ import {
   UPDATE_GROUP,
   JOIN_GROUP,
   LEAVE_GROUP,
+  GET_SETTINGS,
   UPDATE_SETTINGS,
 } from '../actions/actionConstants';
 
@@ -21,6 +22,8 @@ import {
   getGroupFailure,
   joinGroupSuccess,
   leaveGroupSuccess,
+  getSettingsSuccess,
+  getSettingsFailed,
 } from '../actions/groupActions';
 
 export function* getGroupsSaga() {
@@ -89,6 +92,15 @@ export function* leaveGroupSaga(action) {
   }
 }
 
+export function* getSettingsSaga() {
+  try {
+    const settingsResponse = yield axios.get('settings');
+    yield put(getSettingsSuccess(settingsResponse.data));
+  } catch {
+    yield put(getSettingsFailed());
+  }
+}
+
 export function* updateSettingsSaga(action) {
   yield axios.put('settings', action.payload);
 }
@@ -100,5 +112,6 @@ export default function* watchGroupSaga() {
   yield takeLatest(UPDATE_GROUP, updateGroupSaga);
   yield takeLatest(JOIN_GROUP, joinGroupSaga);
   yield takeLatest(LEAVE_GROUP, leaveGroupSaga);
+  yield takeLatest(GET_SETTINGS, getSettingsSaga);
   yield takeLatest(UPDATE_SETTINGS, updateSettingsSaga);
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GroupCreation Page 1`] = `
+exports[`Settings Page 1`] = `
 <Context.Provider
   value={
     Object {
@@ -32,6 +32,6 @@ exports[`GroupCreation Page 1`] = `
     }
   }
 >
-  <ForwardRef(WithStyles) />
+  <Memo(ConnectFunction) />
 </Context.Provider>
 `;

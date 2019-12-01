@@ -147,23 +147,13 @@ class Profile extends Component {
                 {this.state.groups.length > 0 ? (
                   this.state.groups.map(group => (
                     <Grid item lg={4} md={5} sm={4} xs={5} key={group[0]}>
-                      {group[3].length < 5 ? (
-                        <div
-                          className={classes.openGroup}
-                          onClick={() => this.handleGroupClick(group[0])}
-                          role="presentation"
-                        >
-                          <Group group={group} />
-                        </div>
-                      ) : (
-                        <div
-                          className={classes.closedGroup}
-                          onClick={() => this.handleGroupClick(group[0])}
-                          role="presentation"
-                        >
-                          <Group group={group} />
-                        </div>
-                      )}
+                      <div
+                        className={classes.group}
+                        onClick={() => this.handleGroupClick(group[0])}
+                        role="presentation"
+                      >
+                        <Group group={group} />
+                      </div>
                     </Grid>
                   ))
                 ) : (

@@ -83,7 +83,7 @@ class Dashboard extends Component {
             <div className={classes.groupList}>
               {this.state.groups.map(group => (
                 <Grid item lg={4} md={5} sm={4} xs={5} key={group[0]}>
-                  {group[3].length < 5 ? (
+                  {group[4] === 'free' ? (
                     <div
                       className={classes.openGroup}
                       onClick={() => this.handleGroupClick(group[0])}
