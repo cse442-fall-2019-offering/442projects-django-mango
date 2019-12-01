@@ -5,6 +5,8 @@ import {
   GET_GROUP_FAILURE,
   JOIN_GROUP_SUCCESS,
   LEAVE_GROUP_SUCCESS,
+  GET_SETTINGS_SUCCESS,
+  GET_SETTINGS_FAILED,
 } from '../actions/actionConstants';
 
 // The initial state of the App
@@ -20,6 +22,11 @@ export const initialState = {
     members: [],
     public: false,
     member: false,
+    error: true,
+  },
+  settings: {
+    group_size: null,
+    group_limit: null,
     error: true,
   },
 };
@@ -44,6 +51,12 @@ const groupReducer = (state = initialState, action) =>
       case LEAVE_GROUP_SUCCESS:
         draft.group = action.payload;
         draft.group.member = false;
+        break;
+      case GET_SETTINGS_SUCCESS:
+        draft.settings = action.payload;
+        break;
+      case GET_SETTINGS_FAILED:
+        draft.settings.error = true;
         break;
     }
   });

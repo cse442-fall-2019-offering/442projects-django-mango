@@ -15,4 +15,10 @@ const makeSelectGroup = () =>
     groupState => groupState.group,
   );
 
-export { selectGroups, makeSelectGroups, makeSelectGroup };
+const makeSelectSettings = () =>
+  createSelector(
+    selectGroups,
+    groupState => groupState.settings,
+  );
+
+export { selectGroups, makeSelectGroups, makeSelectGroup, makeSelectSettings };

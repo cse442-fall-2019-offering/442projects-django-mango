@@ -4,12 +4,15 @@ import {
   CREATE_GROUP,
   GET_GROUP,
   GET_GROUP_SUCCESS,
+  GET_GROUP_FAILURE,
   UPDATE_GROUP,
   JOIN_GROUP,
   JOIN_GROUP_SUCCESS,
   LEAVE_GROUP,
   LEAVE_GROUP_SUCCESS,
-  GET_GROUP_FAILURE,
+  GET_SETTINGS,
+  GET_SETTINGS_SUCCESS,
+  GET_SETTINGS_FAILED,
   UPDATE_SETTINGS,
 } from './actionConstants';
 
@@ -64,6 +67,19 @@ export const leaveGroup = payload => ({
 export const leaveGroupSuccess = payload => ({
   type: LEAVE_GROUP_SUCCESS,
   payload,
+});
+
+export const getSettings = () => ({
+  type: GET_SETTINGS,
+});
+
+export const getSettingsSuccess = payload => ({
+  type: GET_SETTINGS_SUCCESS,
+  payload,
+});
+
+export const getSettingsFailed = () => ({
+  type: GET_SETTINGS_FAILED,
 });
 
 export const updateSettings = payload => ({

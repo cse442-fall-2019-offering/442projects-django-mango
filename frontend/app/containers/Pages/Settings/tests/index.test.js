@@ -2,17 +2,17 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import configureMockStore from 'redux-mock-store';
-import GroupCreation from '../GroupCreation';
+import Settings from '../Settings';
 
 const mockStore = configureMockStore();
 const store = mockStore({});
 
 const renderer = new ShallowRenderer();
 
-test('GroupCreation Page', () => {
+test('Settings Page', () => {
   const page = renderer.render(
     <Provider store={store}>
-      <GroupCreation />
+      <Settings />
     </Provider>,
   );
   expect(page).toMatchSnapshot();

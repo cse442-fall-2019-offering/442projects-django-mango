@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import { updateSettings } from 'my-actions/groupActions';
+import { getSettings, updateSettings } from 'my-actions/groupActions';
+import Loading from 'my-components/Loading';
+import { makeSelectSettings } from 'my-selectors/groupSelectors';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
@@ -9,16 +13,50 @@ import './style.css';
 
 class Settings extends Component {
   state = {
-    group_limit: 50,
-    group_size: 5,
+    group_limit: null,
+    group_size: null,
+    loading: true,
+    error: false,
+    changed: false,
   };
 
+  static getDerivedStateFromProps(props, prevState) {
+    if (props.groups.group_limit === null) {
+      return {
+        loading: true,
+      };
+    }
+    if (props.groups.error) {
+      return {
+        loading: false,
+        error: true,
+      };
+    }
+    if (
+      (prevState.error && props.groups.error === undefined) ||
+      !prevState.changed
+    ) {
+      return {
+        group_limit: props.groups.group_limit,
+        group_size: props.groups.group_size,
+        loading: false,
+        error: false,
+      };
+    }
+    return null;
+  }
+
+  componentDidMount() {
+    const { onGetSettings } = this.props;
+    onGetSettings();
+  }
+
   handleLimitChange = event => {
-    this.setState({ group_limit: event.target.value });
+    this.setState({ group_limit: event.target.value, changed: true });
   };
 
   handleSizeChange = event => {
-    this.setState({ group_size: event.target.value });
+    this.setState({ group_size: event.target.value, changed: true });
   };
 
   handleDone = () => {
@@ -28,12 +66,16 @@ class Settings extends Component {
       group_size: this.state.group_size,
     };
     onDone(payload);
-    console.log('limit: ', this.state.group_limit);
-    console.log('size: ', this.state.group_size);
     window.location.href = '/groups';
   };
 
   render() {
+    if (this.state.loading) {
+      return <Loading />;
+    }
+    if (this.state.error) {
+      return <NotFoundPage />;
+    }
     return (
       <span>
         <div className="background">
@@ -85,7 +127,7 @@ class Settings extends Component {
               color="primary"
               type="button"
               onClick={this.handleDone}
-              disabled={this.state.created || this.state.name === ''}
+              disabled={!this.state.changed}
             >
               Done
             </Button>
@@ -97,17 +139,22 @@ class Settings extends Component {
 }
 
 Settings.propTypes = {
+  onGetSettings: PropTypes.func.isRequired,
   onDone: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = createStructuredSelector({
+  groups: makeSelectSettings(),
+});
+
 const mapDispatchToProps = dispatch => ({
+  onGetSettings: () => dispatch(getSettings()),
   onDone: payload => dispatch(updateSettings(payload)),
 });
 
 const SettingsMapped = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Settings);
 
 export default SettingsMapped;
-
