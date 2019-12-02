@@ -30,7 +30,7 @@ def settings(request):
 
     global GROUP_SIZE, GROUP_LIMIT
     if request.method == "GET":
-        if request.user.email != "Dsager@buffalo.edu":  # Add admins' emails here
+        if request.user.email != "dsager@buffalo.edu":  # Add admins' emails here
             return Response(status=status.HTTP_400_BAD_REQUEST)
         content = {"group_size": GROUP_SIZE, "group_limit": GROUP_LIMIT}
         return Response(content, status=status.HTTP_200_OK)
